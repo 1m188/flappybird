@@ -1,0 +1,8 @@
+# vsc配置
+.vscode
+
+# 虚拟环境
+env
+
+# py生成
+*.pyc
