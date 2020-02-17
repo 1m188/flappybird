@@ -7,7 +7,7 @@ FPS = 60
 # 资源路径
 resourcesPath = {}
 
-# 某些信息
+# 某些游戏信息图片路径
 resourcesPath["message"] = "img/message.png"
 resourcesPath["gameover"] = "img/gameover.png"
 
@@ -30,7 +30,7 @@ for i in ("green", "red"):
 for i in range(10):
     resourcesPath[str(i)] = f"img/{str(i)}.png"
 
-# 游戏窗口大小
+# 游戏窗口大小（与背景大小相同）
 screenWidth = 288
 screenHeight = 512
 
