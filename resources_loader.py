@@ -8,26 +8,26 @@ def getRes(res: str) -> pygame.surface.Surface:
 
 # 资源加载
 class ResourcesLoader:
-    @staticmethod
-    def loadAllResources():
+    @classmethod
+    def loadAllResources(cls):
 
-        ResourcesLoader.message = getRes("message")
-        ResourcesLoader.gameover = getRes("gameover")
+        cls.message = getRes("message")
+        cls.gameover = getRes("gameover")
 
-        ResourcesLoader.background = {}
-        ResourcesLoader.background["day"] = getRes("background-day")
-        ResourcesLoader.background["night"] = getRes("background-night")
-        ResourcesLoader.base = getRes("base")
+        cls.background = {}
+        cls.background["day"] = getRes("background-day")
+        cls.background["night"] = getRes("background-night")
+        cls.base = getRes("base")
 
-        ResourcesLoader.bird = {}
-        ResourcesLoader.bird["red"] = (getRes("redbird-downflap"), getRes("redbird-midflap"), getRes("redbird-upflap"))
-        ResourcesLoader.bird["blue"] = (getRes("bluebird-downflap"), getRes("bluebird-midflap"), getRes("bluebird-upflap"))
-        ResourcesLoader.bird["yellow"] = (getRes("yellowbird-downflap"), getRes("yellowbird-midflap"), getRes("yellowbird-upflap"))
+        cls.bird = {}
+        cls.bird["red"] = (getRes("redbird-downflap"), getRes("redbird-midflap"), getRes("redbird-upflap"))
+        cls.bird["blue"] = (getRes("bluebird-downflap"), getRes("bluebird-midflap"), getRes("bluebird-upflap"))
+        cls.bird["yellow"] = (getRes("yellowbird-downflap"), getRes("yellowbird-midflap"), getRes("yellowbird-upflap"))
 
-        ResourcesLoader.pipe = {}
-        ResourcesLoader.pipe["red"] = getRes("pipe-red")
-        ResourcesLoader.pipe["green"] = getRes("pipe-green")
+        cls.pipe = {}
+        cls.pipe["red"] = getRes("pipe-red")
+        cls.pipe["green"] = getRes("pipe-green")
 
-        ResourcesLoader.num = {}
+        cls.num = {}
         for i in range(10):
-            ResourcesLoader.num[i] = getRes(str(i))
+            cls.num[i] = getRes(str(i))
