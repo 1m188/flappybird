@@ -1,10 +1,6 @@
 import sys
 import pygame
-from bird import Bird
-from background import Background
-from base import Base
-from pipe import getPipe
-from score import Score
+from sprite import Background, Base, Bird, getPipe, Score
 import config
 from resources_loader import ResourcesLoader
 
