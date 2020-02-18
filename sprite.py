@@ -106,7 +106,8 @@ class Pipe(pygame.sprite.Sprite):
     # 生成一对水管
     @staticmethod
     def genPair(base: pygame.sprite.Sprite) -> tuple:
-        image = ResourcesLoader.pipe["green"]
+        kind = ("green", "red")
+        image = ResourcesLoader.pipe[random.sample(kind, 1)[0]]
 
         pipeBelow = Pipe()
         pipeBelow.image = image
