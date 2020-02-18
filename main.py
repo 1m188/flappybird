@@ -1,6 +1,6 @@
-import sys
 import pygame
-from sprite import Background, Base, Bird, getPipe, Score, Message, Gameover
+from sprite import Background, Base, Bird, Score, Message, Gameover
+from scene import StartScene, GameScene, GameoverScene
 import config
 from resources_loader import ResourcesLoader
 
@@ -12,118 +12,25 @@ screen = pygame.display.set_mode((config.screenWidth, config.screenHeight))
 # 加载所有的资源
 ResourcesLoader.loadAllResources()
 
+# 加载所有的游戏精灵
 background = Background()
 bird = Bird()
 base = Base()
 pipeGroup = pygame.sprite.Group()
 score = Score()
+message = Message()
+gameover = Gameover()
 
-# 用于控制帧率
-clock = pygame.time.Clock()
-
-
-# 开始场景
-def startScene():
-    # 添加信息图片
-    message = Message()
-
-    # 渲染组（按添加顺序渲染）
-    renderGroup = pygame.sprite.OrderedUpdates(background, base, bird, message)
-
-    isBreak = False
-
-    while True:
-        clock.tick_busy_loop(config.FPS)  # 帧率保持
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.USEREVENT + config.birdChangeImgEventID:  # 这里的鸟仍然需要切换图片保持动画
-                bird.changeImg()
-            elif event.type == pygame.MOUSEBUTTONDOWN:  # 如果单击鼠标则跳出循环进入到下一个场景（开始游戏）
-                isBreak = True
-
-        if isBreak:
-            break
-
-        # 保持背景和地面的移动
-        background.update()
-        base.update()
-
-        # 双缓冲绘制窗口内容
-        screen.fill((0, 0, 0, 0))
-        renderGroup.draw(screen)
-        pygame.display.flip()
-
-
-# 游戏场景
-def gameScene():
-    pipeGroup.add(getPipe(base.rect.height))  # 添加水管
-    renderGroup = pygame.sprite.OrderedUpdates(background, pipeGroup, base, bird, score)
-
-    while True:
-        clock.tick_busy_loop(config.FPS)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:  # 单击鼠标让鸟儿跳起来
-                bird.speedReverse()
-            elif event.type == pygame.USEREVENT + config.birdChangeImgEventID:  # 保持动画
-                bird.changeImg()
-
-        if bird.isDead(base.rect.top, pipeGroup):  # 鸟死亡，游戏结束，进入到游戏结束场景
-            break
-
-        # 如果这一组水管过去了的话就加入新的水管并且分数+1
-        if not pipeGroup:
-            pipeGroup.add(getPipe(base.rect.height))
-            renderGroup.empty()
-            renderGroup.add(background, pipeGroup, base, bird, score)
-            score.score += 1
-
-        renderGroup.update()
-
-        screen.fill((0, 0, 0, 0))
-        renderGroup.draw(screen)
-        pygame.display.flip()
-
-
-# 游戏结束场景
-def gameOverScene():
-    # 添加游戏结束图片
-    gameover = Gameover()
-
-    renderGroup = pygame.sprite.OrderedUpdates(background, pipeGroup, base, bird, score, gameover)
-    isBreak = False
-
-    # 需要注意的是这个场景之中每一帧没有update，也没接收鸟切换图片动画事件，才能够保持所有的精灵的静止不动
-    # 让玩家接收自己失败的事实
-    while True:
-        clock.tick_busy_loop(config.FPS)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:  # 单击任意鼠标按键接收自己失败的事实，退出渲染循环进入到下一个场景（重新开始）
-                isBreak = True
-
-        if isBreak:
-            break
-
-        screen.fill((0, 0, 0, 0))
-        renderGroup.draw(screen)
-        pygame.display.flip()
-
-    # 游戏结束，重置一些信息，然后重新开始
-    bird.init()
-    score.score = 0
-    pipeGroup.empty()
-
-
-# 游戏结束之后重新开始
-# 退出的话每个事件循环之中都有检测退出操作的代码
+# 游戏循环
 while True:
-    startScene()
-    gameScene()
-    gameOverScene()
+    # 开始场景
+    startScene = StartScene()
+    startScene.run(screen=screen, background=background, base=base, bird=bird, message=message)
+
+    # 游戏场景
+    gameScene = GameScene()
+    gameScene.run(screen=screen, background=background, base=base, bird=bird, pipeGroup=pipeGroup, score=score)
+
+    # 结束场景
+    gameoverScene = GameoverScene()
+    gameoverScene.run(screen=screen, background=background, base=base, bird=bird, pipeGroup=pipeGroup, score=score, gameover=gameover)
