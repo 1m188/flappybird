@@ -101,32 +101,26 @@ class Bird(pygame.sprite.Sprite):
         return False
 
 
-# 获取水管实例
-# 这里生成两个水管（一上一下），并且用随机数初始化两者的y坐标
-# 两个水管之间要有一定的距离，下方水管头部距离地面和上方水管头部距离顶部都要有一定距离，同时最坏的情况，水管的头部
-# 距离相应的边界最远不能够超过水管图片的长度
-# 传入参数 地面精灵对象
-# 返回 一个带有两个水管对象的tuple
-def getPipe(base: pygame.sprite.Sprite) -> tuple:
-    pipeAbove = Pipe(True)
-    pipeBelow = Pipe(False)
-    pipeBelow.rect.top = random.randint(config.pipeLimit + config.pipeInterval, config.screenHeight - base.rect.height - config.pipeLimit)
-    pipeAbove.rect.bottom = pipeBelow.rect.top - config.pipeInterval
-    return pipeAbove, pipeBelow
-
-
 # 水管
 class Pipe(pygame.sprite.Sprite):
-    def __init__(self, isAbove: bool):
-        super().__init__()
+    # 生成一对水管
+    @staticmethod
+    def genPair(base: pygame.sprite.Sprite) -> tuple:
+        image = ResourcesLoader.pipe["green"]
 
-        # 这里初始化了x坐标，在地图边界右侧
-        # 使其一旦移动能够从右侧进入窗口
-        self.image = ResourcesLoader.pipe["green"]
-        if isAbove:
-            self.image = pygame.transform.flip(self.image, False, True)
-        self.rect = self.image.get_rect()
-        self.rect.left = config.screenWidth
+        pipeBelow = Pipe()
+        pipeBelow.image = image
+        pipeBelow.rect = pipeBelow.image.get_rect()
+        pipeBelow.rect.left = config.screenWidth  # 这里初始化了x坐标，在地图边界右侧，使其一旦移动能够从右侧进入窗口
+        pipeBelow.rect.top = random.randint(config.pipeLimit + config.pipeInterval, base.rect.top - config.pipeLimit)
+
+        pipeAbove = Pipe()
+        pipeAbove.image = pygame.transform.flip(image, False, True)
+        pipeAbove.rect = pipeAbove.image.get_rect()
+        pipeAbove.rect.left = config.screenWidth
+        pipeAbove.rect.bottom = pipeBelow.rect.top - config.pipeInterval
+
+        return pipeAbove, pipeBelow
 
     def update(self):
         self.rect.left -= config.pipeScrollSpeed

@@ -1,7 +1,7 @@
 import sys
 import pygame
 import config
-from sprite import getPipe
+from sprite import Pipe
 
 
 # 场景
@@ -98,7 +98,7 @@ class GameScene(Scene):
         self.pipeGroup = kwargs["pipeGroup"]
         self.score = kwargs["score"]
 
-        self.pipeGroup.add(getPipe(self.base))  # 添加水管
+        self.pipeGroup.add(Pipe.genPair(self.base))  # 添加水管
         self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score)  # 渲染组（按添加顺序渲染）
 
     def eventHandle(self, event):
@@ -114,7 +114,7 @@ class GameScene(Scene):
         else:
             # 如果这一组水管过去了的话就加入新的水管并且分数+1
             if not self.pipeGroup:
-                self.pipeGroup.add(getPipe(self.base))
+                self.pipeGroup.add(Pipe.genPair(self.base))
                 self.renderGroup.empty()
                 self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score)
                 self.score.score += 1
