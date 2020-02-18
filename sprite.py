@@ -157,3 +157,25 @@ class Score(pygame.sprite.Sprite):
         for i in score:
             self.image.blit(self.numDict[int(i)], pygame.Rect(startX, 0, self.numWidth, self.numHeight))
             startX += self.numWidth
+
+
+# 开场信息
+class Message(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = ResourcesLoader.message
+        self.rect = self.image.get_rect()
+        self.rect.center = (config.screenWidth / 2, config.screenHeight / 2)
+        self.rect.top -= config.screenHeight / 6
+
+
+# 游戏结束信息
+class Gameover(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+        self.image = ResourcesLoader.gameover
+        self.rect = self.image.get_rect()
+        self.rect.center = (config.screenWidth / 2, config.screenHeight / 2)
+        self.rect.top -= config.screenHeight / 8

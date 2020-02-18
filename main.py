@@ -1,6 +1,6 @@
 import sys
 import pygame
-from sprite import Background, Base, Bird, getPipe, Score
+from sprite import Background, Base, Bird, getPipe, Score, Message, Gameover
 import config
 from resources_loader import ResourcesLoader
 
@@ -25,14 +25,10 @@ clock = pygame.time.Clock()
 # 开始场景
 def startScene():
     # 添加信息图片
-    messageSprite = pygame.sprite.Sprite()
-    messageSprite.image = ResourcesLoader.message
-    messageSprite.rect = messageSprite.image.get_rect()
-    messageSprite.rect.center = (config.screenWidth / 2, config.screenHeight / 2)
-    messageSprite.rect.top -= config.screenHeight / 6
+    message = Message()
 
     # 渲染组（按添加顺序渲染）
-    renderGroup = pygame.sprite.OrderedUpdates(background, base, bird, messageSprite)
+    renderGroup = pygame.sprite.OrderedUpdates(background, base, bird, message)
 
     isBreak = False
 
@@ -96,13 +92,9 @@ def gameScene():
 # 游戏结束场景
 def gameOverScene():
     # 添加游戏结束图片
-    gameOverSprite = pygame.sprite.Sprite()
-    gameOverSprite.image = ResourcesLoader.gameover
-    gameOverSprite.rect = gameOverSprite.image.get_rect()
-    gameOverSprite.rect.center = (config.screenWidth / 2, config.screenHeight / 2)
-    gameOverSprite.rect.top -= config.screenHeight / 8
+    gameover = Gameover()
 
-    renderGroup = pygame.sprite.OrderedUpdates(background, pipeGroup, base, bird, score, gameOverSprite)
+    renderGroup = pygame.sprite.OrderedUpdates(background, pipeGroup, base, bird, score, gameover)
     isBreak = False
 
     # 需要注意的是这个场景之中每一帧没有update，也没接收鸟切换图片动画事件，才能够保持所有的精灵的静止不动
