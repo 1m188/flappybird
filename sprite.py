@@ -1,7 +1,7 @@
 import random
 import pygame
 import config
-from resources_loader import ResourcesLoader
+from config import ResourcesLoader
 
 
 # 背景

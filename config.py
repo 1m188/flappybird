@@ -1,4 +1,6 @@
-# 这个文件记录一些配置，包括各种大小速度等的参数，以及各种资源的加载路径
+import pygame
+
+# 这里记录一些配置，包括各种大小速度等的参数，以及各种资源的加载路径
 # 需要注意的是这里所有的数字变量都是正值，因此如果要使用的话要结合实际的需要判定方向
 
 # 帧率
@@ -47,3 +49,35 @@ pipeInterval = 100  # 上下两个水管之间的距离
 pipeLimit = 20  # 水管距离相同边界的最小距离
 
 baseScrollSpeed = 2  # 地面移动速度
+
+
+# 资源获取
+def getRes(res: str) -> pygame.surface.Surface:
+    return pygame.image.load(resourcesPath[res]).convert_alpha()
+
+
+# 资源加载
+class ResourcesLoader:
+    @classmethod
+    def loadAllResources(cls):
+
+        cls.message = getRes("message")
+        cls.gameover = getRes("gameover")
+
+        cls.background = {}
+        cls.background["day"] = getRes("background-day")
+        cls.background["night"] = getRes("background-night")
+        cls.base = getRes("base")
+
+        cls.bird = {}
+        cls.bird["red"] = (getRes("redbird-downflap"), getRes("redbird-midflap"), getRes("redbird-upflap"))
+        cls.bird["blue"] = (getRes("bluebird-downflap"), getRes("bluebird-midflap"), getRes("bluebird-upflap"))
+        cls.bird["yellow"] = (getRes("yellowbird-downflap"), getRes("yellowbird-midflap"), getRes("yellowbird-upflap"))
+
+        cls.pipe = {}
+        cls.pipe["red"] = getRes("pipe-red")
+        cls.pipe["green"] = getRes("pipe-green")
+
+        cls.num = {}
+        for i in range(10):
+            cls.num[i] = getRes(str(i))

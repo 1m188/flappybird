@@ -2,7 +2,6 @@ import pygame
 from sprite import Background, Base, Bird, Score, Message, Gameover
 from scene import StartScene, GameScene, GameoverScene
 import config
-from resources_loader import ResourcesLoader
 
 pygame.init()
 
@@ -10,7 +9,7 @@ pygame.display.set_caption("Flappy Bird")
 screen = pygame.display.set_mode((config.screenWidth, config.screenHeight))
 
 # 加载所有的资源
-ResourcesLoader.loadAllResources()
+config.ResourcesLoader.loadAllResources()
 
 # 加载所有的游戏精灵
 background = Background()
