@@ -92,9 +92,9 @@ class Bird(pygame.sprite.Sprite):
         self.image = self.imgTpl[index]
 
     # 判定小鸟是否死亡
-    # 传入参数 地面的顶部坐标以及加有水管的Group类实例
-    def isDead(self, baseTop, pipeGroup):
-        if self.rect.bottom >= baseTop or self.rect.top <= 0:
+    # 传入参数 地面的精灵对象以及加有水管的Group类实例
+    def isDead(self, base: pygame.sprite.Sprite, pipeGroup: pygame.sprite.Group):
+        if self.rect.bottom >= base.rect.top or self.rect.top <= 0:
             return True
         if pygame.sprite.spritecollide(self, pipeGroup, False):
             return True
@@ -105,12 +105,12 @@ class Bird(pygame.sprite.Sprite):
 # 这里生成两个水管（一上一下），并且用随机数初始化两者的y坐标
 # 两个水管之间要有一定的距离，下方水管头部距离地面和上方水管头部距离顶部都要有一定距离，同时最坏的情况，水管的头部
 # 距离相应的边界最远不能够超过水管图片的长度
-# 传入参数 地面顶部距离窗口底部的高度
+# 传入参数 地面精灵对象
 # 返回 一个带有两个水管对象的tuple
-def getPipe(baseHeight: int) -> tuple:
+def getPipe(base: pygame.sprite.Sprite) -> tuple:
     pipeAbove = Pipe(True)
     pipeBelow = Pipe(False)
-    pipeBelow.rect.top = random.randint(config.pipeLimit + config.pipeInterval, config.screenHeight - baseHeight - config.pipeLimit)
+    pipeBelow.rect.top = random.randint(config.pipeLimit + config.pipeInterval, config.screenHeight - base.rect.height - config.pipeLimit)
     pipeAbove.rect.bottom = pipeBelow.rect.top - config.pipeInterval
     return pipeAbove, pipeBelow
 

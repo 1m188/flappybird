@@ -98,7 +98,7 @@ class GameScene(Scene):
         self.pipeGroup = kwargs["pipeGroup"]
         self.score = kwargs["score"]
 
-        self.pipeGroup.add(getPipe(self.base.rect.height))  # 添加水管
+        self.pipeGroup.add(getPipe(self.base))  # 添加水管
         self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score)  # 渲染组（按添加顺序渲染）
 
     def eventHandle(self, event):
@@ -109,12 +109,12 @@ class GameScene(Scene):
 
     def update(self, *args, **kwargs):
         # 鸟死亡，结束游戏场景，进入下一个场景
-        if self.bird.isDead(self.base.rect.top, self.pipeGroup):
+        if self.bird.isDead(self.base, self.pipeGroup):
             self.isRunning = False
         else:
             # 如果这一组水管过去了的话就加入新的水管并且分数+1
             if not self.pipeGroup:
-                self.pipeGroup.add(getPipe(self.base.rect.height))
+                self.pipeGroup.add(getPipe(self.base))
                 self.renderGroup.empty()
                 self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score)
                 self.score.score += 1
