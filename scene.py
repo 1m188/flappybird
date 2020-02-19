@@ -103,7 +103,7 @@ class GameScene(Scene):
 
     def eventHandle(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:  # 单击鼠标让鸟儿跳起来
-            config.ResourcesLoader.wingAud.play()
+            config.AudRes.wing.play()
             self.bird.speedReverse()
         elif event.type == pygame.USEREVENT + config.birdChangeImgEventID:
             self.bird.changeImg()
@@ -111,7 +111,7 @@ class GameScene(Scene):
     def update(self, *args, **kwargs):
         # 鸟死亡，结束游戏场景，进入下一个场景
         if self.bird.isDead(self.base, self.pipeGroup):
-            config.ResourcesLoader.hitAud.play()
+            config.AudRes.hit.play()
             self.isRunning = False
         else:
             # 如果这一组水管过去了的话就加入新的水管并且分数+1
@@ -120,7 +120,7 @@ class GameScene(Scene):
                 self.renderGroup.empty()
                 self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score)
                 self.score.score += 1
-                config.ResourcesLoader.pointAud.play()
+                config.AudRes.point.play()
 
             self.renderGroup.update()
 
@@ -129,7 +129,7 @@ class GameScene(Scene):
 # 需要注意的是这个场景之中每一帧没有update，也没接收鸟切换图片动画事件，才能够保持所有的精灵的静止不动
 class GameoverScene(Scene):
     def prepare(self, *args, **kwargs):
-        config.ResourcesLoader.dieAud.play()
+        config.AudRes.die.play()
 
         # 添加各种精灵
         self.background = kwargs["background"]

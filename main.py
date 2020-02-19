@@ -9,7 +9,8 @@ pygame.display.set_caption("Flappy Bird")
 screen = pygame.display.set_mode((config.screenWidth, config.screenHeight))
 
 # 加载所有的资源
-config.ResourcesLoader.loadAllResources()
+config.imgRes.loadAll()
+config.AudRes.loadAll()
 
 # 加载所有的游戏精灵
 background = Background()
