@@ -57,6 +57,8 @@ pipeLimit = 20  # 水管距离相同边界的最小距离
 
 baseScrollSpeed = 2  # 地面移动速度
 
+gameoverScrollSpeed = 5  # 游戏结束信息移动速度
+
 
 # 图片资源获取
 def getImgRes(res: str) -> pygame.surface.Surface:

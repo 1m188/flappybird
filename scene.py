@@ -111,7 +111,7 @@ class GameScene(Scene):
     def update(self, *args, **kwargs):
         # 鸟死亡，结束游戏场景，进入下一个场景
         if self.bird.isDead(self.base, self.pipeGroup):
-            config.ResourcesLoader.hitAud.play()
+            # config.ResourcesLoader.hitAud.play()
             self.isRunning = False
         else:
             # 如果这一组水管过去了的话就加入新的水管并且分数+1
@@ -137,14 +137,17 @@ class GameoverScene(Scene):
         self.bird = kwargs["bird"]
         self.pipeGroup = kwargs["pipeGroup"]
         self.score = kwargs["score"]
-        gameover = Gameover()
+        self.gameover = Gameover()
 
-        self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score, gameover)
+        self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score, self.gameover)
 
     def eventHandle(self, event):
         # 让玩家接收自己失败的事实
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and self.gameover.scrollAnimEnd:
             self.isRunning = False
+
+    def update(self, *args, **kwargs):
+        self.gameover.scrollAnim()
 
     def end(self, *args, **kwargs):
         # 游戏结束，重置一些信息，然后重新开始

@@ -171,5 +171,12 @@ class Gameover(pygame.sprite.Sprite):
 
         self.image = config.ResourcesLoader.gameoverImg
         self.rect = self.image.get_rect()
-        self.rect.center = (config.screenWidth / 2, config.screenHeight / 2)
-        self.rect.top -= config.screenHeight / 8
+        self.rect.centerx = config.screenWidth / 2
+        self.rect.top = config.screenHeight
+        self.scrollAnimEnd = False
+
+    def scrollAnim(self):
+        self.rect.top -= config.gameoverScrollSpeed
+        if self.rect.top <= config.screenHeight / 2 - self.rect.height / 2 - config.screenHeight / 8:
+            self.rect.top += config.gameoverScrollSpeed
+            self.scrollAnimEnd = True
