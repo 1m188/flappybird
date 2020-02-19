@@ -6,31 +6,38 @@ import pygame
 # 帧率
 FPS = 60
 
-# 资源路径
-resourcesPath = {}
+# 图片资源路径
+imgPath = {}
 
 # 某些游戏信息图片路径
-resourcesPath["message"] = "img/message.png"
-resourcesPath["gameover"] = "img/gameover.png"
+imgPath["message"] = "img/message.png"
+imgPath["gameover"] = "img/gameover.png"
 
 # 背景及下边界
 for i in ("day", "night"):
-    resourcesPath[f"background-{i}"] = f"img/background-{i}.png"
-resourcesPath["base"] = "img/base.png"
+    imgPath[f"background-{i}"] = f"img/background-{i}.png"
+imgPath["base"] = "img/base.png"
 
 # 几种颜色的鸟以及其各种形态
 for i in ("red", "blue", "yellow"):
-    resourcesPath[f"{i}bird-downflap"] = f"img/{i}bird-downflap.png"
-    resourcesPath[f"{i}bird-midflap"] = f"img/{i}bird-midflap.png"
-    resourcesPath[f"{i}bird-upflap"] = f"img/{i}bird-upflap.png"
+    imgPath[f"{i}bird-downflap"] = f"img/{i}bird-downflap.png"
+    imgPath[f"{i}bird-midflap"] = f"img/{i}bird-midflap.png"
+    imgPath[f"{i}bird-upflap"] = f"img/{i}bird-upflap.png"
 
 # 水管
 for i in ("green", "red"):
-    resourcesPath[f"pipe-{i}"] = f"img/pipe-{i}.png"
+    imgPath[f"pipe-{i}"] = f"img/pipe-{i}.png"
 
 # 数字
 for i in range(10):
-    resourcesPath[str(i)] = f"img/{str(i)}.png"
+    imgPath[str(i)] = f"img/{str(i)}.png"
+
+# 音乐资源路径
+audPath = {}
+audPath["die"] = "audio/die.ogg"  # 死亡
+audPath["hit"] = "audio/hit.ogg"  # 撞到某些东西
+audPath["point"] = "audio/point.ogg"  # 得分
+audPath["wing"] = "audio/wing.ogg"  # 点击向上飞时
 
 # 游戏窗口大小（与背景大小相同）
 screenWidth = 288
@@ -51,9 +58,14 @@ pipeLimit = 20  # 水管距离相同边界的最小距离
 baseScrollSpeed = 2  # 地面移动速度
 
 
-# 资源获取
-def getRes(res: str) -> pygame.surface.Surface:
-    return pygame.image.load(resourcesPath[res]).convert_alpha()
+# 图片资源获取
+def getImgRes(res: str) -> pygame.surface.Surface:
+    return pygame.image.load(imgPath[res]).convert_alpha()
+
+
+# 音乐资源获取
+def getAudRes(res: str) -> pygame.mixer.Sound:
+    return pygame.mixer.Sound(res)
 
 
 # 资源加载
@@ -61,23 +73,28 @@ class ResourcesLoader:
     @classmethod
     def loadAllResources(cls):
 
-        cls.message = getRes("message")
-        cls.gameover = getRes("gameover")
+        cls.messageImg = getImgRes("message")
+        cls.gameoverImg = getImgRes("gameover")
 
-        cls.background = {}
-        cls.background["day"] = getRes("background-day")
-        cls.background["night"] = getRes("background-night")
-        cls.base = getRes("base")
+        cls.backgroundImg = {}
+        cls.backgroundImg["day"] = getImgRes("background-day")
+        cls.backgroundImg["night"] = getImgRes("background-night")
+        cls.baseImg = getImgRes("base")
 
-        cls.bird = {}
-        cls.bird["red"] = (getRes("redbird-downflap"), getRes("redbird-midflap"), getRes("redbird-upflap"))
-        cls.bird["blue"] = (getRes("bluebird-downflap"), getRes("bluebird-midflap"), getRes("bluebird-upflap"))
-        cls.bird["yellow"] = (getRes("yellowbird-downflap"), getRes("yellowbird-midflap"), getRes("yellowbird-upflap"))
+        cls.birdImg = {}
+        cls.birdImg["red"] = (getImgRes("redbird-downflap"), getImgRes("redbird-midflap"), getImgRes("redbird-upflap"))
+        cls.birdImg["blue"] = (getImgRes("bluebird-downflap"), getImgRes("bluebird-midflap"), getImgRes("bluebird-upflap"))
+        cls.birdImg["yellow"] = (getImgRes("yellowbird-downflap"), getImgRes("yellowbird-midflap"), getImgRes("yellowbird-upflap"))
 
-        cls.pipe = {}
-        cls.pipe["red"] = getRes("pipe-red")
-        cls.pipe["green"] = getRes("pipe-green")
+        cls.pipeImg = {}
+        cls.pipeImg["red"] = getImgRes("pipe-red")
+        cls.pipeImg["green"] = getImgRes("pipe-green")
 
-        cls.num = {}
+        cls.numImg = {}
         for i in range(10):
-            cls.num[i] = getRes(str(i))
+            cls.numImg[i] = getImgRes(str(i))
+
+        cls.dieAud = getAudRes(audPath["die"])
+        cls.hitAud = getAudRes(audPath["hit"])
+        cls.pointAud = getAudRes(audPath["point"])
+        cls.wingAud = getAudRes(audPath["wing"])
