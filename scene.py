@@ -1,7 +1,7 @@
 import sys
 import pygame
 import config
-from sprite import Pipe
+from sprite import Pipe, Message, Gameover
 
 
 # 场景
@@ -71,7 +71,7 @@ class StartScene(Scene):
         self.background = kwargs["background"]
         self.base = kwargs["base"]
         self.bird = kwargs["bird"]
-        message = kwargs["message"]
+        message = Message()
 
         # 渲染组（按添加顺序渲染）
         self.renderGroup.add(self.background, self.base, self.bird, message)
@@ -132,7 +132,7 @@ class GameoverScene(Scene):
         self.bird = kwargs["bird"]
         self.pipeGroup = kwargs["pipeGroup"]
         self.score = kwargs["score"]
-        gameover = kwargs["gameover"]
+        gameover = Gameover()
 
         self.renderGroup.add(self.background, self.pipeGroup, self.base, self.bird, self.score, gameover)
 

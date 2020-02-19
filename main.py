@@ -24,7 +24,7 @@ gameover = Gameover()
 while True:
     # 开始场景
     startScene = StartScene()
-    startScene.run(screen=screen, background=background, base=base, bird=bird, message=message)
+    startScene.run(screen=screen, background=background, base=base, bird=bird)
 
     # 游戏场景
     gameScene = GameScene()
@@ -32,4 +32,4 @@ while True:
 
     # 结束场景
     gameoverScene = GameoverScene()
-    gameoverScene.run(screen=screen, background=background, base=base, bird=bird, pipeGroup=pipeGroup, score=score, gameover=gameover)
+    gameoverScene.run(screen=screen, background=background, base=base, bird=bird, pipeGroup=pipeGroup, score=score)
