@@ -111,7 +111,7 @@ class GameScene(Scene):
     def update(self, *args, **kwargs):
         # 鸟死亡，结束游戏场景，进入下一个场景
         if self.bird.isDead(self.base, self.pipeGroup):
-            # config.ResourcesLoader.hitAud.play()
+            config.ResourcesLoader.hitAud.play()
             self.isRunning = False
         else:
             # 如果这一组水管过去了的话就加入新的水管并且分数+1
