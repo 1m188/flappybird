@@ -109,6 +109,8 @@ birdImgChangeEventInterval = 200  # 鸟切换显示图片间隔时间 单位ms
 pipeScrollSpeed = 2  # 水管移动速度
 pipeInterval = 100  # 上下两个水管之间的距离
 pipeLimit = 20  # 水管距离相同边界的最小距离
+pipeGenEventID = 2  # 水管生成事件id
+pipeGenEventInterval = 1800  # 水管生成时间间隔 ms
 
 baseScrollSpeed = 2  # 地面移动速度
 
