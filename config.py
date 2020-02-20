@@ -5,6 +5,9 @@ import pygame
 # 图片资源路径
 imgPath = {}
 
+# 图标
+imgPath["icon"] = "image/bird_icon.png"
+
 # 某些游戏信息图片路径
 imgPath["message"] = "image/message.png"
 imgPath["gameover"] = "image/gameover.png"
@@ -40,6 +43,8 @@ class imgRes:
     # 加载所有资源
     @classmethod
     def loadAll(cls):
+
+        cls.icon = cls.getRes("icon")
 
         cls.message = cls.getRes("message")
         cls.gameover = cls.getRes("gameover")
