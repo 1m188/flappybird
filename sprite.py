@@ -103,18 +103,18 @@ class Bird(pygame.sprite.Sprite):
 # 水管
 class Pipe(pygame.sprite.Sprite):
     # 生成一对水管
-    @staticmethod
-    def genPair(base: pygame.sprite.Sprite) -> tuple:
+    @classmethod
+    def genPair(cls, base: pygame.sprite.Sprite) -> tuple:
         kind = ("green", "red")
         image = config.imgRes.pipe[random.sample(kind, 1)[0]]
 
-        pipeBelow = Pipe()
+        pipeBelow = cls()
         pipeBelow.image = image
         pipeBelow.rect = pipeBelow.image.get_rect()
         pipeBelow.rect.left = config.screenWidth  # 这里初始化了x坐标，在地图边界右侧，使其一旦移动能够从右侧进入窗口
         pipeBelow.rect.top = random.randint(config.pipeLimit + config.pipeInterval, base.rect.top - config.pipeLimit)
 
-        pipeAbove = Pipe()
+        pipeAbove = cls()
         pipeAbove.image = pygame.transform.flip(image, False, True)
         pipeAbove.rect = pipeAbove.image.get_rect()
         pipeAbove.rect.left = config.screenWidth
