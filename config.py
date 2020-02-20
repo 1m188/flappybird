@@ -5,31 +5,33 @@ import pygame
 # 图片资源路径
 imgPath = {}
 
+imgPathPrefix = "image"
+
 # 图标
-imgPath["icon"] = "image/bird_icon.png"
+imgPath["icon"] = f"{imgPathPrefix}/bird_icon.png"
 
 # 某些游戏信息图片路径
-imgPath["message"] = "image/message.png"
-imgPath["gameover"] = "image/gameover.png"
+imgPath["message"] = f"{imgPathPrefix}/message.png"
+imgPath["gameover"] = f"{imgPathPrefix}/gameover.png"
 
 # 背景及下边界
 for i in ("day", "night"):
-    imgPath[f"background-{i}"] = f"image/background-{i}.png"
-imgPath["base"] = "image/base.png"
+    imgPath[f"background-{i}"] = f"{imgPathPrefix}/background-{i}.png"
+imgPath["base"] = f"{imgPathPrefix}/base.png"
 
 # 几种颜色的鸟以及其各种形态
 for i in ("red", "blue", "yellow"):
-    imgPath[f"{i}bird-downflap"] = f"image/{i}bird-downflap.png"
-    imgPath[f"{i}bird-midflap"] = f"image/{i}bird-midflap.png"
-    imgPath[f"{i}bird-upflap"] = f"image/{i}bird-upflap.png"
+    imgPath[f"{i}bird-downflap"] = f"{imgPathPrefix}/{i}bird-downflap.png"
+    imgPath[f"{i}bird-midflap"] = f"{imgPathPrefix}/{i}bird-midflap.png"
+    imgPath[f"{i}bird-upflap"] = f"{imgPathPrefix}/{i}bird-upflap.png"
 
 # 水管
 for i in ("green", "red"):
-    imgPath[f"pipe-{i}"] = f"image/pipe-{i}.png"
+    imgPath[f"pipe-{i}"] = f"{imgPathPrefix}/pipe-{i}.png"
 
 # 数字
 for i in range(10):
-    imgPath[str(i)] = f"image/{str(i)}.png"
+    imgPath[str(i)] = f"{imgPathPrefix}/{str(i)}.png"
 
 
 # 图片资源
@@ -70,10 +72,11 @@ class imgRes:
 
 # 音乐资源路径
 audPath = {}
-audPath["die"] = "audio/die.ogg"  # 死亡
-audPath["hit"] = "audio/hit.ogg"  # 撞到某些东西
-audPath["point"] = "audio/point.ogg"  # 得分
-audPath["wing"] = "audio/wing.ogg"  # 点击向上飞时
+audPathPrefix = "audio"
+audPath["die"] = f"{audPathPrefix}/die.ogg"  # 死亡
+audPath["hit"] = f"{audPathPrefix}/hit.ogg"  # 撞到某些东西
+audPath["point"] = f"{audPathPrefix}/point.ogg"  # 得分
+audPath["wing"] = f"{audPathPrefix}/wing.ogg"  # 点击向上飞时
 
 
 # 音乐资源
