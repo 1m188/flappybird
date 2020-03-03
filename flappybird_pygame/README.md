@@ -2,4 +2,4 @@
 
 用pygame编写的Flappy Bird游戏
 
-使用python3.6.2 + pygame编写，pygame具体版本请见requirements.txt。
+使用 python 3.6.2 + pygame 1.9.6 编写。
