@@ -5,7 +5,7 @@ import pygame
 # 图片资源路径
 imgPath = {}
 
-imgPathPrefix = "image"
+imgPathPrefix = "../asset/image"
 
 # 图标
 imgPath["icon"] = f"{imgPathPrefix}/bird_icon.png"
@@ -72,7 +72,7 @@ class imgRes:
 
 # 音乐资源路径
 audPath = {}
-audPathPrefix = "audio"
+audPathPrefix = "../asset/audio"
 audPath["die"] = f"{audPathPrefix}/die.ogg"  # 死亡
 audPath["hit"] = f"{audPathPrefix}/hit.ogg"  # 撞到某些东西
 audPath["point"] = f"{audPathPrefix}/point.ogg"  # 得分
