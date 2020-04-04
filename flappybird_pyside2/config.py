@@ -1,5 +1,6 @@
 from PySide2.QtGui import QPixmap
-from PySide2.QtMultimedia import QSound
+from PySide2.QtMultimedia import QMediaPlayer
+from PySide2.QtCore import QUrl
 
 # 这里记录一些资源的路径及获取方法
 
@@ -85,8 +86,10 @@ class AudRes:
 
     # 资源获取
     @staticmethod
-    def getRes(resPath: str) -> QSound:
-        return QSound(resPath)
+    def getRes(resPath: str) -> QMediaPlayer:
+        mp = QMediaPlayer()
+        mp.setMedia(QUrl(resPath))
+        return mp
 
     # 加载所有资源
     @classmethod
