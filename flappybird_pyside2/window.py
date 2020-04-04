@@ -14,6 +14,7 @@ class Window(QWidget):
         self.setWindowTitle(self.tr("Flappy Bird"))
         self.setFixedSize(288, 512)
         self.setWindowFlags(Qt.WindowCloseButtonHint)
+        self.setWindowIcon(config.ImgRes.icon)
 
     def paintEvent(self, event):
         painter = QPainter(self)
