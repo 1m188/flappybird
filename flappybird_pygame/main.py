@@ -9,12 +9,12 @@ pygame.init()
 screen = pygame.display.set_mode((config.screenWidth, config.screenHeight))
 
 # 加载所有的资源
-config.imgRes.loadAll()
+config.ImgRes.loadAll()
 config.AudRes.loadAll()
 
 # 设置窗口设置
 pygame.display.set_caption("Flappy Bird")
-pygame.display.set_icon(config.imgRes.icon)
+pygame.display.set_icon(config.ImgRes.icon)
 
 # 加载所有的游戏精灵
 background = Background()

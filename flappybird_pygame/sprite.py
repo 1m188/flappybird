@@ -12,7 +12,7 @@ class Background(pygame.sprite.Sprite):
         # 绘制一个背景的大小，不断左移制造出小鸟向右飞的感觉，并且在背景左移快超出边界的时候
         # 重新设置为一开始的坐标反复循环制造出一种背景不断向左移并且不间断的感觉
         kind = ("day", "night")
-        image = config.imgRes.background[random.sample(kind, 1)[0]]
+        image = config.ImgRes.background[random.sample(kind, 1)[0]]
         self.rect = pygame.Rect(0, 0, config.screenWidth * 2, config.screenHeight)
         self.image = pygame.surface.Surface(self.rect.size).convert()
         self.image.blit(image, pygame.Rect(0, 0, self.rect.width / 2, self.rect.height))
@@ -31,7 +31,7 @@ class Base(pygame.sprite.Sprite):
         super().__init__()
 
         # 用的方法和背景一样，两倍宽，不断向左移
-        image = config.imgRes.base
+        image = config.ImgRes.base
         self.rect = pygame.Rect(0, 0, image.get_width() * 2, image.get_height())
         self.rect.bottom = config.screenHeight
         self.image = pygame.surface.Surface(self.rect.size).convert()
@@ -51,7 +51,7 @@ class Bird(pygame.sprite.Sprite):
 
         # 这里获取鸟翅膀从上到下再到上的图片列表，以便于不断地更换显示图片制造出动画的感觉
         kind = ("yellow", "red", "blue")
-        self.imgTpl = list(config.imgRes.bird[random.sample(kind, 1)[0]])
+        self.imgTpl = list(config.ImgRes.bird[random.sample(kind, 1)[0]])
         temp = self.imgTpl.copy()
         temp.reverse()
         temp.pop(0)
@@ -106,7 +106,7 @@ class Pipe(pygame.sprite.Sprite):
     @classmethod
     def genPair(cls, base: pygame.sprite.Sprite) -> tuple:
         kind = ("green", "red")
-        image = config.imgRes.pipe[random.sample(kind, 1)[0]]
+        image = config.ImgRes.pipe[random.sample(kind, 1)[0]]
 
         pipeBelow = cls()
         pipeBelow.image = image
@@ -135,7 +135,7 @@ class Score(pygame.sprite.Sprite):
 
         # 这里分数的surface高度为单个数字的高度，宽度为整个窗口的宽度
         # 考虑到可能玩到很高的分数需要多位数字表示的时候尽量在整个窗口的中间
-        self.numDict = config.imgRes.num
+        self.numDict = config.ImgRes.num
         self.numWidth, self.numHeight = self.numDict[0].get_size()
         self.rect = pygame.Rect(0, config.screenHeight / 8 - self.numHeight / 2, config.screenWidth, self.numHeight)
         self.image = pygame.surface.Surface(self.rect.size).convert_alpha()
@@ -158,7 +158,7 @@ class Message(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.image = config.imgRes.message
+        self.image = config.ImgRes.message
         self.rect = self.image.get_rect()
         self.rect.center = (config.screenWidth / 2, config.screenHeight / 2)
         self.rect.top -= config.screenHeight / 6
@@ -169,7 +169,7 @@ class Gameover(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.image = config.imgRes.gameover
+        self.image = config.ImgRes.gameover
         self.rect = self.image.get_rect()
         self.rect.centerx = config.screenWidth / 2
         self.rect.top = config.screenHeight

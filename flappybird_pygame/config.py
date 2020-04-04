@@ -35,7 +35,7 @@ for i in range(10):
 
 
 # 图片资源
-class imgRes:
+class ImgRes:
 
     # 获取资源
     @staticmethod
