@@ -36,7 +36,7 @@ class Background(Sprite):
 
     # 每帧左移，制造出小鸟不断往前飞的感觉
     def update(self):
-        self.x -= 1
+        self.x -= config.backgroundScrollSpeed
         if self.x <= -self.width / 2:
             self.x = 0
 
