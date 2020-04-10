@@ -1,5 +1,5 @@
 import random
-from PySide2.QtGui import QPixmap
+from PySide2.QtGui import QPixmap, QPainter
 import config
 
 
@@ -20,6 +20,25 @@ class Sprite:
     # 每一帧的变化
     def update(self):
         pass
+
+
+# 背景
+class Background(Sprite):
+    def __init__(self):
+        index = random.randint(0, len(config.ImgRes.background) - 1)
+        key = list(config.ImgRes.background.keys())[index]
+        background = config.ImgRes.background[key]
+        image = QPixmap(background.width() * 2, background.height())
+        painter = QPainter(image)
+        painter.drawPixmap(0, 0, background)
+        painter.drawPixmap(background.width(), 0, background)
+        super().__init__(image)
+
+    # 每帧左移，制造出小鸟不断往前飞的感觉
+    def update(self):
+        self.x -= 1
+        if self.x <= -self.width / 2:
+            self.x = 0
 
 
 # 小鸟

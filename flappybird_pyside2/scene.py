@@ -1,9 +1,8 @@
-import random
 from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter
 from PySide2.QtCore import QTimer
 import config
-from sprite import Bird
+from sprite import Bird, Background
 
 
 # scene basic class
@@ -39,14 +38,14 @@ class Scene(QWidget):
 class StartScene(Scene):
     def prepare(self):
         self.setFixedSize(config.screenWidth, config.screenHeight)
-        index = random.randint(0, len(config.ImgRes.background) - 1)
-        key = list(config.ImgRes.background.keys())[index]
-        self.background = config.ImgRes.background[key]
-
+        self.background = Background()
         self.bird = Bird()
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.drawPixmap(0, 0, self.background)
+        painter.drawPixmap(self.background.x, self.background.y, self.background.spriteImg)
         painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
         super().paintEvent(event)
+
+    def status(self):
+        self.background.update()
