@@ -1,5 +1,6 @@
 import random
 from PySide2.QtGui import QPixmap, QPainter
+from PySide2.QtCore import QTimer
 import config
 
 
@@ -46,5 +47,23 @@ class Bird(Sprite):
     def __init__(self):
         index = random.randint(0, len(config.ImgRes.bird) - 1)
         key = list(config.ImgRes.bird.keys())[index]
-        self.imageGroup = config.ImgRes.bird[key]
-        super().__init__(self.imageGroup[0])
+        self.imgGroup = list(config.ImgRes.bird[key])
+        another = self.imgGroup.copy()
+        another.reverse()
+        another.pop(0)
+        another.pop()
+        self.imgGroup = tuple(self.imgGroup + another)
+        self.imgID = 0
+        self.imgLen = len(self.imgGroup)
+        super().__init__(self.imgGroup[self.imgID])
+        self.imgID += 1
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.changeImg)
+        self.timer.start(config.birdImgChangeEventInterval)
+
+    def changeImg(self):
+        if self.imgID >= self.imgLen:
+            self.imgID = 0
+        self.spriteImg = self.imgGroup[self.imgID]
+        self.imgID += 1

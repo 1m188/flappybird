@@ -40,6 +40,8 @@ class StartScene(Scene):
         self.setFixedSize(config.screenWidth, config.screenHeight)
         self.background = Background()
         self.bird = Bird()
+        self.bird.x = self.width() / 8
+        self.bird.y = self.height() / 3
 
     def paintEvent(self, event):
         painter = QPainter(self)
