@@ -3,6 +3,7 @@ from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter
 from PySide2.QtCore import QTimer
 import config
+from sprite import Bird
 
 
 # scene basic class
@@ -42,7 +43,10 @@ class StartScene(Scene):
         key = list(config.ImgRes.background.keys())[index]
         self.background = config.ImgRes.background[key]
 
+        self.bird = Bird()
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.drawPixmap(0, 0, self.background)
+        painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
         super().paintEvent(event)
