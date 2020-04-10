@@ -31,7 +31,6 @@ class Sprite:
     @x.setter
     def x(self, val):
         self.x = val
-        self.right = self.x + self.width()
 
     @property
     def y(self):
@@ -40,7 +39,7 @@ class Sprite:
     @y.setter
     def y(self, val):
         self.y = val
-        self.bottom = self.y + self.height()
 
+    # 每一帧的变化
     def update(self):
         pass
