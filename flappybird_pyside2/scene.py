@@ -8,9 +8,9 @@ import config
 class Scene(QWidget):
     def __init__(self, parent: QWidget):
         super().__init__(parent)
+        self.prepare()
 
     def run(self):
-        self.prepare()
         self.timer = QTimer()
         self.timer.timeout.connect(self.frame)
         self.timer.start(1000 / config.FPS)
