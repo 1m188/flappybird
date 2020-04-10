@@ -1,3 +1,4 @@
+import random
 from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter
 from PySide2.QtCore import QTimer
@@ -31,3 +32,17 @@ class Scene(QWidget):
 
     def end(self):
         pass
+
+
+# 开始场景
+class StartScene(Scene):
+    def prepare(self):
+        self.setFixedSize(config.screenWidth, config.screenHeight)
+        index = random.randint(0, len(config.ImgRes.background) - 1)
+        key = list(config.ImgRes.background.keys())[index]
+        self.background = config.ImgRes.background[key]
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawPixmap(0, 0, self.background)
+        super().paintEvent(event)
