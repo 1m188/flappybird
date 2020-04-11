@@ -62,6 +62,10 @@ class Bird(Sprite):
         self.imgID += 1
         self.frameCounter = 0
 
+    # 初始化鸟的状态，速度等
+    def initStatus(self):
+        self.v = 0
+
     # 改变小鸟图片，制造出扇动翅膀的动画
     def changeImg(self):
         self.frameCounter += 1

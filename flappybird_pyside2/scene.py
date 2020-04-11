@@ -22,13 +22,13 @@ class Scene(QWidget):
         self.end()
 
     def frame(self):
-        self.status()
+        self.statusUpdate()
         self.update()
 
     def prepare(self, *args, **kwargs):
         pass
 
-    def status(self):
+    def statusUpdate(self):
         pass
 
     def end(self):
@@ -55,13 +55,13 @@ class StartScene(Scene):
         painter.drawPixmap(self.message.x, self.message.y, self.message.spriteImg)
         super().paintEvent(event)
 
-    def status(self):
+    def statusUpdate(self):
         self.background.moveLeft()
         self.bird.changeImg()
 
-    def mouseReleaseEvent(self, event):
+    def mousePressEvent(self, event):
         self.stop()
-        super().mouseReleaseEvent(event)
+        super().mousePressEvent(event)
 
     def end(self):
         self.deleteLater()
@@ -75,6 +75,7 @@ class GameScene(Scene):
     def prepare(self, background: Background, bird: Bird):
         self.background = background
         self.bird = bird
+        self.bird.initStatus()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -82,6 +83,13 @@ class GameScene(Scene):
         painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
         super().paintEvent(event)
 
-    def status(self):
+    def mousePressEvent(self, event):
+        self.bird.v = -config.birdRevSpd
+        super().mousePressEvent(event)
+
+    def statusUpdate(self):
         self.background.moveLeft()
         self.bird.changeImg()
+
+        self.bird.v += config.gravity
+        self.bird.y += self.bird.v
