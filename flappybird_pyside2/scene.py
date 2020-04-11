@@ -40,14 +40,14 @@ class StartScene(Scene):
     def prepare(self, background: Background, bird: Bird):
         self.background = background
 
-        self.message = Message()
-        self.message.x = self.width() / 2 - self.message.width / 2
-        self.message.y = self.height() / 12
-
         self.bird = bird
         self.bird.x = self.width() / 8
         self.bird.y = self.height() / 3 + 42
         self.bird.timer.start()
+
+        self.message = Message()
+        self.message.x = self.width() / 2 - self.message.width / 2
+        self.message.y = self.height() / 12
 
     def paintEvent(self, event):
         painter = QPainter(self)
