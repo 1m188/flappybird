@@ -55,3 +55,10 @@ class StartScene(Scene):
 
     def status(self):
         self.background.update()
+
+    def mouseReleaseEvent(self, event):
+        self.stop()
+        super().mouseReleaseEvent(event)
+
+    def end(self):
+        pass
