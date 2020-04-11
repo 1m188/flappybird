@@ -42,6 +42,12 @@ class Background(Sprite):
             self.x = 0
 
 
+# 标题信息
+class Message(Sprite):
+    def __init__(self):
+        super().__init__(config.ImgRes.message)
+
+
 # 小鸟
 class Bird(Sprite):
     def __init__(self):

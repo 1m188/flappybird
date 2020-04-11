@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter
 from PySide2.QtCore import QTimer
 import config
-from sprite import Bird, Background
+from sprite import Bird, Background, Message
 
 
 # scene basic class
@@ -41,12 +41,16 @@ class StartScene(Scene):
         self.background = Background()
         self.bird = Bird()
         self.bird.x = self.width() / 8
-        self.bird.y = self.height() / 3
+        self.bird.y = self.height() / 3 + 42
+        self.message = Message()
+        self.message.x = self.width() / 2 - self.message.width / 2
+        self.message.y = self.height() / 12
 
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.drawPixmap(self.background.x, self.background.y, self.background.spriteImg)
         painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
+        painter.drawPixmap(self.message.x, self.message.y, self.message.spriteImg)
         super().paintEvent(event)
 
     def status(self):
