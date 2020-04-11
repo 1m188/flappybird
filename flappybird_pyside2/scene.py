@@ -9,6 +9,7 @@ from sprite import Bird, Background
 class Scene(QWidget):
     def __init__(self, parent: QWidget):
         super().__init__(parent)
+        self.resize(self.parentWidget().size())
         self.prepare()
 
     def run(self):
@@ -37,7 +38,6 @@ class Scene(QWidget):
 # 开始场景
 class StartScene(Scene):
     def prepare(self):
-        self.setFixedSize(config.screenWidth, config.screenHeight)
         self.background = Background()
         self.bird = Bird()
         self.bird.x = self.width() / 8
