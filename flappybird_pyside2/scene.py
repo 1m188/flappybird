@@ -7,10 +7,10 @@ from sprite import Bird, Background, Message
 
 # scene basic class
 class Scene(QWidget):
-    def __init__(self, parent: QWidget):
+    def __init__(self, parent: QWidget, *args, **kwargs):
         super().__init__(parent)
         self.resize(self.parentWidget().size())
-        self.prepare()
+        self.prepare(*args, **kwargs)
 
     def run(self):
         self.timer = QTimer()
@@ -25,7 +25,7 @@ class Scene(QWidget):
         self.status()
         self.update()
 
-    def prepare(self):
+    def prepare(self, *args, **kwargs):
         pass
 
     def status(self):
@@ -37,14 +37,17 @@ class Scene(QWidget):
 
 # 开始场景
 class StartScene(Scene):
-    def prepare(self):
-        self.background = Background()
-        self.bird = Bird()
-        self.bird.x = self.width() / 8
-        self.bird.y = self.height() / 3 + 42
+    def prepare(self, background: Background, bird: Bird):
+        self.background = background
+
         self.message = Message()
         self.message.x = self.width() / 2 - self.message.width / 2
         self.message.y = self.height() / 12
+
+        self.bird = bird
+        self.bird.x = self.width() / 8
+        self.bird.y = self.height() / 3 + 42
+        self.bird.timer.start()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -61,4 +64,10 @@ class StartScene(Scene):
         super().mouseReleaseEvent(event)
 
     def end(self):
+        pass
+
+
+# 游戏场景
+class GameScene(Scene):
+    def prepare(self):
         pass

@@ -66,8 +66,9 @@ class Bird(Sprite):
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.changeImg)
-        self.timer.start(config.birdImgChangeEventInterval)
+        self.timer.setInterval(config.birdImgChangeEventInterval)
 
+    # 改变小鸟图片，制造出扇动翅膀的动画
     def changeImg(self):
         if self.imgID >= self.imgLen:
             self.imgID = 0

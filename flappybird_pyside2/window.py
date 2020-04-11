@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QWidget
 from PySide2.QtCore import Qt
 import config
 from scene import StartScene
+from sprite import Background, Bird
 
 
 # game main window
@@ -9,7 +10,9 @@ class Window(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        startScene = StartScene(self)
+        self.bird = Bird()
+        self.background = Background()
+        startScene = StartScene(self, self.background, self.bird)
         startScene.run()
 
     def initUI(self):
