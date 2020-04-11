@@ -43,7 +43,6 @@ class StartScene(Scene):
         self.bird = bird
         self.bird.x = self.width() / 8
         self.bird.y = self.height() / 3 + 42
-        self.bird.timer.start()
 
         self.message = Message()
         self.message.x = self.width() / 2 - self.message.width / 2
@@ -57,17 +56,32 @@ class StartScene(Scene):
         super().paintEvent(event)
 
     def status(self):
-        self.background.update()
+        self.background.moveLeft()
+        self.bird.changeImg()
 
     def mouseReleaseEvent(self, event):
         self.stop()
         super().mouseReleaseEvent(event)
 
     def end(self):
-        pass
+        self.deleteLater()
+        gameScene = GameScene(self.parent(), self.background, self.bird)
+        gameScene.show()
+        gameScene.run()
 
 
 # 游戏场景
 class GameScene(Scene):
-    def prepare(self):
-        pass
+    def prepare(self, background: Background, bird: Bird):
+        self.background = background
+        self.bird = bird
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawPixmap(self.background.x, self.background.y, self.background.spriteImg)
+        painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
+        super().paintEvent(event)
+
+    def status(self):
+        self.background.moveLeft()
+        self.bird.changeImg()

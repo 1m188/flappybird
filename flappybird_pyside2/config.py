@@ -115,7 +115,7 @@ backgroundScrollSpeed = 1
 
 gravity = 0.3  # 鸟收到的重力
 birdRevSpd = 6  # 按下按键之后的速度反转
-birdImgChangeEventInterval = 200  # 鸟切换显示图片间隔时间 单位ms
+birdImgChangeFrameNum = 12  # 鸟切换显示图片间隔帧数
 
 pipeScrollSpeed = 2  # 水管移动速度
 pipeInterval = 100  # 上下两个水管之间的距离

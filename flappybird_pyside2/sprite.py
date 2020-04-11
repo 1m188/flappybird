@@ -1,6 +1,5 @@
 import random
 from PySide2.QtGui import QPixmap, QPainter
-from PySide2.QtCore import QTimer
 import config
 
 
@@ -18,10 +17,6 @@ class Sprite:
     def height(self):
         return self.spriteImg.height()
 
-    # 每一帧的变化
-    def update(self):
-        pass
-
 
 # 背景
 class Background(Sprite):
@@ -36,7 +31,7 @@ class Background(Sprite):
         super().__init__(image)
 
     # 每帧左移，制造出小鸟不断往前飞的感觉
-    def update(self):
+    def moveLeft(self):
         self.x -= config.backgroundScrollSpeed
         if self.x <= -self.width / 2:
             self.x = 0
@@ -54,23 +49,25 @@ class Bird(Sprite):
         index = random.randint(0, len(config.ImgRes.bird) - 1)
         key = list(config.ImgRes.bird.keys())[index]
         self.imgGroup = list(config.ImgRes.bird[key])
+
         another = self.imgGroup.copy()
         another.reverse()
         another.pop(0)
         another.pop()
         self.imgGroup = tuple(self.imgGroup + another)
+
         self.imgID = 0
         self.imgLen = len(self.imgGroup)
         super().__init__(self.imgGroup[self.imgID])
         self.imgID += 1
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.changeImg)
-        self.timer.setInterval(config.birdImgChangeEventInterval)
+        self.frameCounter = 0
 
     # 改变小鸟图片，制造出扇动翅膀的动画
     def changeImg(self):
-        if self.imgID >= self.imgLen:
-            self.imgID = 0
-        self.spriteImg = self.imgGroup[self.imgID]
-        self.imgID += 1
+        self.frameCounter += 1
+        if self.frameCounter == config.birdImgChangeFrameNum:
+            self.frameCounter = 0
+            if self.imgID >= self.imgLen:
+                self.imgID = 0
+            self.spriteImg = self.imgGroup[self.imgID]
+            self.imgID += 1
