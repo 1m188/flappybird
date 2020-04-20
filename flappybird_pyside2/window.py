@@ -5,14 +5,14 @@ from scene import StartScene
 from sprite import Background, Bird
 
 
-# game main window
+# 游戏窗口
 class Window(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.bird = Bird()
-        self.background = Background()
-        startScene = StartScene(self, self.background, self.bird)
+
+        # 开始场景启动
+        startScene = StartScene(self, Background(), Bird())
         startScene.run()
 
     def initUI(self):

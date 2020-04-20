@@ -3,17 +3,20 @@ from PySide2.QtGui import QPixmap, QPainter
 import config
 
 
-# sprite basic class
+# 精灵类
 class Sprite:
     def __init__(self, image: QPixmap):
         self.spriteImg = image
+        # 精灵坐标
         self.x = 0
         self.y = 0
 
+    # 宽
     @property
     def width(self):
         return self.spriteImg.width()
 
+    # 高
     @property
     def height(self):
         return self.spriteImg.height()
@@ -22,9 +25,12 @@ class Sprite:
 # 背景
 class Background(Sprite):
     def __init__(self):
+        # 随机选择一个背景
         index = random.randint(0, len(config.ImgRes.background) - 1)
         key = list(config.ImgRes.background.keys())[index]
         background = config.ImgRes.background[key]
+
+        # 做一个两倍宽的背景图片，便于制造移动飞行的效果
         image = QPixmap(background.width() * 2, background.height())
         painter = QPainter(image)
         painter.drawPixmap(0, 0, background)
@@ -47,16 +53,19 @@ class Message(Sprite):
 # 小鸟
 class Bird(Sprite):
     def __init__(self):
+        # 随机选择小鸟系列图片
         index = random.randint(0, len(config.ImgRes.bird) - 1)
         key = list(config.ImgRes.bird.keys())[index]
         self.imgGroup = list(config.ImgRes.bird[key])
 
+        # 做小鸟的一系列动作图片列表
         another = self.imgGroup.copy()
         another.reverse()
         another.pop(0)
         another.pop()
         self.imgGroup = tuple(self.imgGroup + another)
 
+        # 切换图片，制造小鸟山东翅膀的效果
         self.imgID = 0
         self.imgLen = len(self.imgGroup)
         super().__init__(self.imgGroup[self.imgID])
