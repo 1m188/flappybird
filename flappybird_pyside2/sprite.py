@@ -14,6 +14,7 @@ class Sprite:
     def width(self):
         return self.spriteImg.width()
 
+    @property
     def height(self):
         return self.spriteImg.height()
 
