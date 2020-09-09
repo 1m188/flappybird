@@ -1,6 +1,7 @@
 import random
 from PySide2.QtGui import QPixmap, QPainter
 import config
+from PySide2.QtCore import Signal, QObject
 
 
 # 精灵类
@@ -51,7 +52,9 @@ class Message(Sprite):
 
 
 # 小鸟
-class Bird(Sprite):
+class Bird(Sprite, QObject):
+    passPipe = Signal()
+
     def __init__(self):
         # 随机选择小鸟系列图片
         index = random.randint(0, len(config.ImgRes.bird) - 1)
@@ -68,9 +71,11 @@ class Bird(Sprite):
         # 切换图片，制造小鸟扇动翅膀的效果
         self.imgID = 0
         self.imgLen = len(self.imgGroup)
-        super().__init__(self.imgGroup[self.imgID])
+        Sprite.__init__(self, self.imgGroup[self.imgID])
         self.imgID += 1
         self.frameCounter = 0
+
+        QObject.__init__(self)
 
     # 初始化鸟的状态，速度等
     def initStatus(self):

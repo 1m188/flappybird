@@ -1,8 +1,9 @@
+import random
 from PySide2.QtWidgets import QWidget
-from PySide2.QtGui import QPainter
-from PySide2.QtCore import QTimer
+from PySide2.QtGui import QPainter, QPixmap
+from PySide2.QtCore import QTimer, Slot
 import config
-from sprite import Bird, Background, Message
+from sprite import Sprite, Bird, Background, Message
 
 
 # 场景类
@@ -57,9 +58,11 @@ class StartScene(Scene):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.drawPixmap(self.background.x, self.background.y, self.background.spriteImg)
+        painter.drawPixmap(self.background.x, self.background.y,
+                           self.background.spriteImg)
         painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
-        painter.drawPixmap(self.message.x, self.message.y, self.message.spriteImg)
+        painter.drawPixmap(self.message.x, self.message.y,
+                           self.message.spriteImg)
         super().paintEvent(event)
 
     def statusUpdate(self):
@@ -83,13 +86,19 @@ class StartScene(Scene):
 class GameScene(Scene):
     def prepare(self, background: Background, bird: Bird):
         self.background = background
+        self.pipes = None
         self.bird = bird
         self.bird.initStatus()  # 初始化小鸟状态
+        self.bird.passPipe.connect(self.getPipe)
+        self.bird.passPipe.emit()
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.drawPixmap(self.background.x, self.background.y, self.background.spriteImg)
+        painter.drawPixmap(self.background.x, self.background.y,
+                           self.background.spriteImg)
         painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
+        for i in self.pipes:
+            painter.drawPixmap(i.x, i.y, i.spriteImg)
         super().paintEvent(event)
 
     # 点击鼠标让小鸟往上飞
@@ -105,3 +114,27 @@ class GameScene(Scene):
 
         self.bird.v += config.gravity
         self.bird.y += self.bird.v
+
+        for i in self.pipes:
+            i.x -= config.pipeScrollSpeed
+            if i.x + i.width <= 0:
+                self.pipes = None
+                break
+
+        if not self.pipes:
+            self.bird.passPipe.emit()
+
+    @Slot()
+    def getPipe(self):
+        index = random.randint(0, len(config.ImgRes.pipe) - 1)
+        key = list(config.ImgRes.pipe)[index]
+        image = config.ImgRes.pipe[key]
+        pipeDown = Sprite(
+            QPixmap.fromImage(image.toImage().mirrored(False, True)))
+        pipeUp = Sprite(image)
+        pipeUp.x = self.width()
+        pipeDown.x = self.width()
+        pipeUp.y = random.randint(self.height() - pipeUp.height,
+                                  self.height() - config.pipeLimit)
+        pipeDown.y = pipeUp.y - config.pipeInterval - pipeDown.height
+        self.pipes = (pipeUp, pipeDown)
