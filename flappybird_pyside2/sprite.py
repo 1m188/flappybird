@@ -65,7 +65,7 @@ class Bird(Sprite):
         another.pop()
         self.imgGroup = tuple(self.imgGroup + another)
 
-        # 切换图片，制造小鸟山东翅膀的效果
+        # 切换图片，制造小鸟扇动翅膀的效果
         self.imgID = 0
         self.imgLen = len(self.imgGroup)
         super().__init__(self.imgGroup[self.imgID])
