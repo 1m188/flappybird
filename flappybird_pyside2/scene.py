@@ -91,6 +91,7 @@ class GameScene(Scene):
         self.bird.initStatus()  # 初始化小鸟状态
         self.bird.passPipe.connect(self.getPipe)
         self.bird.passPipe.emit()
+        self.isEnd = False  # 游戏是否结束
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -101,8 +102,8 @@ class GameScene(Scene):
             painter.drawPixmap(i.x, i.y, i.spriteImg)
         super().paintEvent(event)
 
-    # 点击鼠标让小鸟往上飞
     def mousePressEvent(self, event):
+        # 点击鼠标让小鸟往上飞
         self.bird.v = -config.birdRevSpd
         super().mousePressEvent(event)
 
@@ -123,6 +124,23 @@ class GameScene(Scene):
 
         if not self.pipes:
             self.bird.passPipe.emit()
+
+        self.isEnd = self.collide()
+        if self.isEnd:
+            self.stop()
+
+    def collide(self) -> bool:
+        '''小鸟的碰撞检测'''
+        if self.bird.y <= 0 or self.bird.y + self.bird.height >= self.height():
+            return True
+        for p in self.pipes:
+            f = self.bird.x + self.bird.width < p.x or \
+                self.bird.x > p.x + p.width or \
+                self.bird.y + self.bird.height < p.y or \
+                self.bird.y > p.y + p.height
+            if not f:
+                return True
+        return False
 
     @Slot()
     def getPipe(self):
