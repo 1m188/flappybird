@@ -1,7 +1,10 @@
 import random
+from collections import Iterable
+
 from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter, QPixmap
 from PySide2.QtCore import QTimer, Slot
+
 import config
 from sprite import Sprite, Bird, Background, Message, OverMsg
 
@@ -11,7 +14,24 @@ class Scene(QWidget):
     def __init__(self, parent: QWidget, *args, **kwargs):
         super().__init__(parent)
         self.resize(self.parentWidget().size())  # 使场景和窗口大小一样大
+
+        # 渲染列表，其中可以是sprite，也可以是其他可迭代对象，
+        # 但最终都要是sprite
+        # 先加入的对象先渲染，尾部对象最后渲染
+        self.renderl = []
+
         self.prepare(*args, **kwargs)  # 场景开始前的准备
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        rl = self.renderl.copy()
+        rl.reverse()
+        while rl:
+            s = rl.pop()
+            if isinstance(s, Iterable):
+                rl.extend(list(reversed(s)))
+            else:
+                painter.drawPixmap(s.x, s.y, s.spriteImg)
 
     # 场景启动，使用定时器控制帧数
     def run(self):
@@ -25,6 +45,7 @@ class Scene(QWidget):
         self.end()
 
     # 每帧的内容
+    @Slot()
     def frame(self):
         self.statusUpdate()
         self.update()  # 刷新重绘
@@ -56,14 +77,7 @@ class StartScene(Scene):
         self.message.x = self.width() / 2 - self.message.width / 2
         self.message.y = self.height() / 12
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.drawPixmap(self.background.x, self.background.y,
-                           self.background.spriteImg)
-        painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
-        painter.drawPixmap(self.message.x, self.message.y,
-                           self.message.spriteImg)
-        super().paintEvent(event)
+        self.renderl.extend((self.background, self.message, self.bird))
 
     def statusUpdate(self):
         self.background.moveLeft()  # 背景移动，制造前飞效果
@@ -86,21 +100,14 @@ class StartScene(Scene):
 class GameScene(Scene):
     def prepare(self, background: Background, bird: Bird):
         self.background = background
-        self.pipes = None
+        self.pipes = []  # 水管
         self.bird = bird
         self.bird.initStatus()  # 初始化小鸟状态
         self.bird.passPipe.connect(self.getPipe)
         self.bird.passPipe.emit()
         self.isEnd = False  # 游戏是否结束
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.drawPixmap(self.background.x, self.background.y,
-                           self.background.spriteImg)
-        painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
-        for i in self.pipes:
-            painter.drawPixmap(i.x, i.y, i.spriteImg)
-        super().paintEvent(event)
+        self.renderl.extend((self.background, self.bird, self.pipes))
 
     def mousePressEvent(self, event):
         # 点击鼠标让小鸟往上飞
@@ -118,11 +125,8 @@ class GameScene(Scene):
 
         for i in self.pipes:
             i.x -= config.pipeScrollSpeed
-            if i.x + i.width <= 0:
-                self.pipes = None
-                break
 
-        if not self.pipes:
+        if self.pipes[0].x + self.pipes[0].width < 0:
             self.bird.passPipe.emit()
 
         self.isEnd = self.collide()
@@ -155,7 +159,8 @@ class GameScene(Scene):
         pipeUp.y = random.randint(self.height() - pipeUp.height,
                                   self.height() - config.pipeLimit)
         pipeDown.y = pipeUp.y - config.pipeInterval - pipeDown.height
-        self.pipes = (pipeUp, pipeDown)
+        self.pipes.clear()
+        self.pipes.extend((pipeUp, pipeDown))
 
     def end(self):
         '''结束游戏，进入结算界面'''
@@ -179,15 +184,7 @@ class GameoverScene(Scene):
 
         self.isEnd = False  # 过场动画是否结束
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.drawPixmap(self.background.x, self.background.y,
-                           self.background.spriteImg)
-        painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
-        for i in self.pipes:
-            painter.drawPixmap(i.x, i.y, i.spriteImg)
-        painter.drawPixmap(self.msg.x, self.msg.y, self.msg.spriteImg)
-        super().paintEvent(event)
+        self.renderl.extend((self.background, self.bird, self.pipes, self.msg))
 
     def statusUpdate(self):
         # 游戏结束信息移动
