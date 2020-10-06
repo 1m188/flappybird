@@ -90,3 +90,9 @@ class Bird(Sprite, QObject):
                 self.imgID = 0
             self.spriteImg = self.imgGroup[self.imgID]
             self.imgID += 1
+
+
+class OverMsg(Sprite):
+    '''游戏结束标题信息'''
+    def __init__(self):
+        super().__init__(config.ImgRes.gameover)

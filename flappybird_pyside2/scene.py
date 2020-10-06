@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter, QPixmap
 from PySide2.QtCore import QTimer, Slot
 import config
-from sprite import Sprite, Bird, Background, Message
+from sprite import Sprite, Bird, Background, Message, OverMsg
 
 
 # 场景类
@@ -156,3 +156,53 @@ class GameScene(Scene):
                                   self.height() - config.pipeLimit)
         pipeDown.y = pipeUp.y - config.pipeInterval - pipeDown.height
         self.pipes = (pipeUp, pipeDown)
+
+    def end(self):
+        '''结束游戏，进入结算界面'''
+        self.deleteLater()
+        over = GameoverScene(self.parent(), self.background, self.bird,
+                             self.pipes)
+        over.show()
+        over.run()
+
+
+class GameoverScene(Scene):
+    '''游戏结束场景'''
+    def prepare(self, background: Background, bird: Bird, pipes: tuple):
+        self.background = background
+        self.bird = bird
+        self.pipes = pipes
+
+        self.msg = OverMsg()  # 游戏结束标题
+        self.msg.x = self.width() / 2 - self.msg.width / 2
+        self.msg.y = self.height()
+
+        self.isEnd = False  # 过场动画是否结束
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawPixmap(self.background.x, self.background.y,
+                           self.background.spriteImg)
+        painter.drawPixmap(self.bird.x, self.bird.y, self.bird.spriteImg)
+        for i in self.pipes:
+            painter.drawPixmap(i.x, i.y, i.spriteImg)
+        painter.drawPixmap(self.msg.x, self.msg.y, self.msg.spriteImg)
+        super().paintEvent(event)
+
+    def statusUpdate(self):
+        # 游戏结束信息移动
+        if self.msg.y + self.msg.height / 2 > self.height() / 3:
+            self.msg.y -= config.gameoverScrollSpeed
+        else:
+            self.isEnd = True
+
+    def mousePressEvent(self, event):
+        if self.isEnd:
+            self.stop()
+
+    def end(self):
+        '''重新进入开始界面'''
+        self.deleteLater()
+        startScene = StartScene(self.parent(), self.background, self.bird)
+        startScene.show()
+        startScene.run()
