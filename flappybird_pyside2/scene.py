@@ -118,6 +118,7 @@ class GameScene(Scene):
     def mousePressEvent(self, event):
         # 点击鼠标让小鸟往上飞
         self.bird.v = -config.birdRevSpd
+        config.AudRes.wing.play()
         super().mousePressEvent(event)
 
     def changeScore(self, val: int):
@@ -159,6 +160,7 @@ class GameScene(Scene):
             self.bird.passPipe.emit()
             self.score += 1
             self.changeScore(self.score)
+            config.AudRes.point.play()
 
         self.isEnd = self.collide()
         if self.isEnd:
@@ -174,6 +176,7 @@ class GameScene(Scene):
                 self.bird.y + self.bird.height < p.y or \
                 self.bird.y > p.y + p.height
             if not f:
+                config.AudRes.hit.play()
                 return True
         return False
 
@@ -221,6 +224,8 @@ class GameoverScene(Scene):
 
         self.renderl.extend(
             (self.background, self.bird, self.pipes, self.msg, self.scoresp))
+
+        config.AudRes.die.play()
 
     def statusUpdate(self):
         # 游戏结束信息移动
