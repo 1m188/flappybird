@@ -1,5 +1,6 @@
 import random
 from collections import Iterable
+from typing import List
 
 from PySide2.QtWidgets import QWidget
 from PySide2.QtGui import QPainter, QPixmap
@@ -106,13 +107,41 @@ class GameScene(Scene):
         self.bird.passPipe.connect(self.getPipe)
         self.bird.passPipe.emit()
         self.isEnd = False  # 游戏是否结束
+        # 分数
+        self.score = 0
+        self.scoresp: List[Sprite] = []
+        self.changeScore(self.score)
 
-        self.renderl.extend((self.background, self.bird, self.pipes))
+        self.renderl.extend(
+            (self.background, self.bird, self.pipes, self.scoresp))
 
     def mousePressEvent(self, event):
         # 点击鼠标让小鸟往上飞
         self.bird.v = -config.birdRevSpd
         super().mousePressEvent(event)
+
+    def changeScore(self, val: int):
+        '''改变分数'''
+        self.score = val
+        self.scoresp.clear()
+
+        if not val:  # 单独零分特殊考虑
+            sp = Sprite(config.ImgRes.num[0])
+            sp.x = self.width() / 2 - sp.width / 2
+            sp.y = self.height() / 10
+            self.scoresp.append(sp)
+            return
+
+        while val:
+            img = config.ImgRes.num[val % 10]
+            self.scoresp.append(Sprite(img))
+            val //= 10
+        self.scoresp.reverse()
+        lx = self.width() / 2 - len(self.scoresp) * self.scoresp[0].width / 2
+        for i in self.scoresp:
+            i.x = lx
+            lx += i.width
+            i.y = self.height() / 10
 
     # 背景不断移动
     # 同时每帧的变化小鸟需要按照一定加速度向下走
@@ -128,6 +157,8 @@ class GameScene(Scene):
 
         if self.pipes[0].x + self.pipes[0].width < 0:
             self.bird.passPipe.emit()
+            self.score += 1
+            self.changeScore(self.score)
 
         self.isEnd = self.collide()
         if self.isEnd:
@@ -148,6 +179,7 @@ class GameScene(Scene):
 
     @Slot()
     def getPipe(self):
+        '''获得新水管'''
         index = random.randint(0, len(config.ImgRes.pipe) - 1)
         key = list(config.ImgRes.pipe)[index]
         image = config.ImgRes.pipe[key]
@@ -166,17 +198,20 @@ class GameScene(Scene):
         '''结束游戏，进入结算界面'''
         self.deleteLater()
         over = GameoverScene(self.parent(), self.background, self.bird,
-                             self.pipes)
+                             self.pipes, self.score, self.scoresp)
         over.show()
         over.run()
 
 
 class GameoverScene(Scene):
     '''游戏结束场景'''
-    def prepare(self, background: Background, bird: Bird, pipes: tuple):
+    def prepare(self, background: Background, bird: Bird, pipes: tuple,
+                score: int, scoresp: List[Sprite]):
         self.background = background
         self.bird = bird
         self.pipes = pipes
+        self.score = score
+        self.scoresp = scoresp
 
         self.msg = OverMsg()  # 游戏结束标题
         self.msg.x = self.width() / 2 - self.msg.width / 2
@@ -184,7 +219,8 @@ class GameoverScene(Scene):
 
         self.isEnd = False  # 过场动画是否结束
 
-        self.renderl.extend((self.background, self.bird, self.pipes, self.msg))
+        self.renderl.extend(
+            (self.background, self.bird, self.pipes, self.msg, self.scoresp))
 
     def statusUpdate(self):
         # 游戏结束信息移动
