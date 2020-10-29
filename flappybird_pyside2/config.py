@@ -126,7 +126,7 @@ screenHeight = 512
 backgroundScrollSpeed = 1
 
 gravity = 0.4  # 鸟收到的重力
-birdRevSpd = 8  # 按下按键之后的速度反转
+birdRevSpd = 7  # 按下按键之后的速度反转
 birdImgChangeFrameNum = 12  # 鸟切换显示图片间隔帧数
 
 pipeScrollSpeed = 2  # 水管移动速度
