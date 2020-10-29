@@ -1,7 +1,9 @@
 import random
+
 from PySide2.QtGui import QPixmap, QPainter
-import config
 from PySide2.QtCore import Signal, QObject
+
+import config
 
 
 # 精灵类
