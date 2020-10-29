@@ -7,7 +7,7 @@ from PySide2.QtGui import QPainter, QPixmap
 from PySide2.QtCore import QTimer, Slot
 
 import config
-from sprite import Sprite, Bird, Background, Message, OverMsg
+from sprite import Sprite, Bird, Background, Message, OverMsg, Base
 
 
 # 场景类
@@ -65,8 +65,11 @@ class Scene(QWidget):
 
 # 开始场景
 class StartScene(Scene):
-    def prepare(self, background: Background, bird: Bird):
+    def prepare(self, background: Background, bird: Bird, base: Base):
         self.background = background  # 背景
+        self.base = base  # 地板
+
+        self.base.y = self.height() - self.base.height
 
         # 鸟
         self.bird = bird
@@ -78,10 +81,12 @@ class StartScene(Scene):
         self.message.x = self.width() / 2 - self.message.width / 2
         self.message.y = self.height() / 12
 
-        self.renderl.extend((self.background, self.message, self.bird))
+        self.renderl.extend(
+            (self.background, self.base, self.message, self.bird))
 
     def statusUpdate(self):
         self.background.moveLeft()  # 背景移动，制造前飞效果
+        self.base.moveLeft()
         self.bird.changeImg()  # 鸟更换图片，制造翅膀效果
 
     # 一旦鼠标点击，立刻停止开始场景，进入下一个游戏场景
@@ -92,15 +97,17 @@ class StartScene(Scene):
     # 扫尾，生成游戏场景并准备进入
     def end(self):
         self.deleteLater()
-        gameScene = GameScene(self.parent(), self.background, self.bird)
+        gameScene = GameScene(self.parent(), self.background, self.bird,
+                              self.base)
         gameScene.show()
         gameScene.run()
 
 
 # 游戏场景
 class GameScene(Scene):
-    def prepare(self, background: Background, bird: Bird):
+    def prepare(self, background: Background, bird: Bird, base: Base):
         self.background = background
+        self.base = base
         self.pipes = []  # 水管
         self.bird = bird
         self.bird.initStatus()  # 初始化小鸟状态
@@ -113,7 +120,7 @@ class GameScene(Scene):
         self.changeScore(self.score)
 
         self.renderl.extend(
-            (self.background, self.bird, self.pipes, self.scoresp))
+            (self.background, self.bird, self.pipes, self.base, self.scoresp))
 
     def mousePressEvent(self, event):
         # 点击鼠标让小鸟往上飞
@@ -148,6 +155,7 @@ class GameScene(Scene):
     # 同时每帧的变化小鸟需要按照一定加速度向下走
     def statusUpdate(self):
         self.background.moveLeft()
+        self.base.moveLeft()
         self.bird.changeImg()
 
         self.bird.v += config.gravity
@@ -168,7 +176,7 @@ class GameScene(Scene):
 
     def collide(self) -> bool:
         '''小鸟的碰撞检测'''
-        if self.bird.y <= 0 or self.bird.y + self.bird.height >= self.height():
+        if self.bird.y <= 0 or self.bird.y + self.bird.height >= self.base.y:
             return True
         for p in self.pipes:
             f = self.bird.x + self.bird.width < p.x or \
@@ -191,8 +199,8 @@ class GameScene(Scene):
         pipeUp = Sprite(image)
         pipeUp.x = self.width()
         pipeDown.x = self.width()
-        pipeUp.y = random.randint(self.height() - pipeUp.height,
-                                  self.height() - config.pipeLimit)
+        pipeUp.y = random.randint(config.pipeLimit + config.pipeInterval,
+                                  self.base.y - config.pipeLimit)
         pipeDown.y = pipeUp.y - config.pipeInterval - pipeDown.height
         self.pipes.clear()
         self.pipes.extend((pipeUp, pipeDown))
@@ -201,7 +209,7 @@ class GameScene(Scene):
         '''结束游戏，进入结算界面'''
         self.deleteLater()
         over = GameoverScene(self.parent(), self.background, self.bird,
-                             self.pipes, self.score, self.scoresp)
+                             self.pipes, self.score, self.scoresp, self.base)
         over.show()
         over.run()
 
@@ -209,8 +217,9 @@ class GameScene(Scene):
 class GameoverScene(Scene):
     '''游戏结束场景'''
     def prepare(self, background: Background, bird: Bird, pipes: tuple,
-                score: int, scoresp: List[Sprite]):
+                score: int, scoresp: List[Sprite], base: Base):
         self.background = background
+        self.base = base
         self.bird = bird
         self.pipes = pipes
         self.score = score
@@ -222,8 +231,8 @@ class GameoverScene(Scene):
 
         self.isEnd = False  # 过场动画是否结束
 
-        self.renderl.extend(
-            (self.background, self.bird, self.pipes, self.msg, self.scoresp))
+        self.renderl.extend((self.background, self.bird, self.pipes, self.base,
+                             self.msg, self.scoresp))
 
         config.AudRes.die.play()
 
@@ -241,6 +250,7 @@ class GameoverScene(Scene):
     def end(self):
         '''重新进入开始界面'''
         self.deleteLater()
-        startScene = StartScene(self.parent(), self.background, self.bird)
+        startScene = StartScene(self.parent(), self.background, self.bird,
+                                self.base)
         startScene.show()
         startScene.run()

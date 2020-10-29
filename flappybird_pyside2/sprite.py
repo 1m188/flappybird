@@ -98,3 +98,19 @@ class OverMsg(Sprite):
     '''游戏结束标题信息'''
     def __init__(self):
         super().__init__(config.ImgRes.gameover)
+
+
+class Base(Sprite):
+    '''地板'''
+    def __init__(self):
+        img = config.ImgRes.base
+        image = QPixmap(img.width() * 2, img.height())
+        painter = QPainter(image)
+        painter.drawPixmap(0, 0, img)
+        painter.drawPixmap(img.width(), 0, img)
+        super().__init__(image)
+
+    def moveLeft(self):
+        self.x -= config.baseScrollSpeed
+        if self.x <= -self.width / 2:
+            self.x = 0
