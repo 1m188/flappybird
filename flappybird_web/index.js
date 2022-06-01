@@ -15,7 +15,7 @@ class Config {
 
 
 let img = new Image();
-img.src = "../asset/sprites/background-day.png";
+img.src = "../asset/image/background-day.png";
 img.onload = function () {
 
     let arr = new Array();
