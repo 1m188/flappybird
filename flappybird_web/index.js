@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 
 class Config {
 
-    static FPS = 120;
+    static FPS = 60;
 
     static frameUpdateTime = 1000 / this.FPS;
 
