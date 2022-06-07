@@ -189,24 +189,23 @@ class Res_img {
 
 Res_img.load();
 
-    let arr = new Array();
+let arr = new Array();
+let num = (Math.floor(canvas.width / Res_img.background_day.width) + 1) * 2;
+for (let i = 0; i < num; i++) {
+    arr.push(i * Res_img.background_day.width);
+}
+setInterval(() => {
 
-    let num = (Math.floor(canvas.width / img.width) + 1) * 2;
-    for (let i = 0; i < num; i++) {
-        arr.push(i * img.width);
+    if (!Res_img.is_ready()) return;
+
+    for (let i = 0; i < arr.length; i++) {
+        ctx.drawImage(Res_img.background_day, arr[i], 0, Res_img.background_day.width, canvas.height);
+        arr[i] -= Config.background_dx;
+    }
+    if (arr[0] <= -Res_img.background_day.width) {
+        for (let i = 0; i < arr.length; i++) {
+            arr[i] += Res_img.background_day.width;
+        }
     }
 
-    setInterval(() => {
-
-        for (let i = 0; i < arr.length; i++) {
-            ctx.drawImage(img, arr[i], 0, img.width, canvas.height);
-            arr[i] -= Config.background_dx;
-        }
-        if (arr[0] <= -img.width) {
-            for (let i = 0; i < arr.length; i++) {
-                arr[i] += img.width;
-            }
-        }
-
-    }, Config.frameUpdateTime);
-};
+}, Config.frameUpdateTime);
