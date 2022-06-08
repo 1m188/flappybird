@@ -102,7 +102,7 @@ class Res_img {
     /**
      * 加载所有图片资源
      */
-    static load() {
+    static load(afterload) {
         if (Res_img.numbers.length != 0) return; // 已经加载完了就不必再加载了
 
         for (let i = 0; i <= 9; i++) {
@@ -159,6 +159,12 @@ class Res_img {
 
         Res_img.yellowbird_upflap.src = "../asset/image/yellowbird-upflap.png"
         Res_img.yellowbird_upflap.onload = function () { Res_img.num++ };
+
+        let timer = setInterval(function () {
+            if (!Res_img.is_ready()) return;
+            clearInterval(timer);
+            afterload();
+        }, 10);
     }
 
     static is_ready() {
@@ -230,21 +236,17 @@ class Background extends Sprite {
     }
 };
 
-Res_img.load();
+Res_img.load(main);
 
-let timer = setInterval(function () {
-
-    if (!Res_img.is_ready()) return;
-    clearInterval(timer);
+function main() {
 
     let background_day = new Background(Res_img.background_day);
 
-    timer = setInterval(function () {
+    setInterval(function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         background_day.run();
 
     }, 1000 / 60);
-
-}, 10);
+}
