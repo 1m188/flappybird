@@ -211,21 +211,21 @@ class Sprite {
 class Background extends Sprite {
     constructor(img) {
         super(img);
-        this.arr = new Array();
-        let num = (Math.floor(canvas.width / this.width) + 1) * 2;
-        for (let i = 0; i < num; i++)
-            this.arr.push(i * this.width);
+        this.width = canvas.height / this.height * this.width;
+        this.height = canvas.height;
     }
 
-    draw() {
-        for (let i = 0; i < this.arr.length; i++) {
-            ctx.drawImage(this.img, this.arr[i], 0, this.width, canvas.height);
-            this.arr[i] -= 1;
+    after_draw() {
+        let end = this.x + this.width;
+        while (end < canvas.width) {
+            ctx.drawImage(this.img, end, 0, this.width, this.height);
+            end += this.width;
         }
-        if (this.arr[0] <= -this.width) {
-            for (let i = 0; i < this.arr.length; i++) {
-                this.arr[i] += this.width;
-            }
+
+        this.move(-1, 0);
+
+        if (this.x + this.width <= 0) {
+            this.moveTo(0, 0);
         }
     }
 };
