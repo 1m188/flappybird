@@ -264,14 +264,14 @@ Res_img.load(main);
 
 function main() {
 
-    let background_day = new Background();
+    let background = new Background();
     let base = new Base();
 
     setInterval(function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        background_day.run();
+        background.run();
         base.run();
 
     }, 1000 / 60);
