@@ -189,23 +189,29 @@ class Res_img {
 
 Res_img.load();
 
-let arr = new Array();
-let num = (Math.floor(canvas.width / Res_img.background_day.width) + 1) * 2;
-for (let i = 0; i < num; i++) {
-    arr.push(i * Res_img.background_day.width);
-}
-setInterval(() => {
+let timer = setInterval(function () {
 
     if (!Res_img.is_ready()) return;
+    clearInterval(timer);
 
-    for (let i = 0; i < arr.length; i++) {
-        ctx.drawImage(Res_img.background_day, arr[i], 0, Res_img.background_day.width, canvas.height);
-        arr[i] -= Config.background_dx;
+    let arr = new Array();
+    let num = (Math.floor(canvas.width / Res_img.background_day.width) + 1) * 2;
+    for (let i = 0; i < num; i++) {
+        arr.push(i * Res_img.background_day.width);
     }
-    if (arr[0] <= -Res_img.background_day.width) {
+
+    timer = setInterval(function () {
+
         for (let i = 0; i < arr.length; i++) {
-            arr[i] += Res_img.background_day.width;
+            ctx.drawImage(Res_img.background_day, arr[i], 0, Res_img.background_day.width, canvas.height);
+            arr[i] -= Config.background_dx;
         }
-    }
+        if (arr[0] <= -Res_img.background_day.width) {
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] += Res_img.background_day.width;
+            }
+        }
 
-}, Config.frameUpdateTime);
+    }, Config.frameUpdateTime);
+
+}, 10);
