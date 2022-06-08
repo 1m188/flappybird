@@ -187,6 +187,9 @@ class Res_img {
     }
 };
 
+/**
+ * 精灵类
+ */
 class Sprite {
     constructor(img) {
         this.img = img;
@@ -211,6 +214,9 @@ class Sprite {
     }
 };
 
+/**
+ * 背景
+ */
 class Background extends Sprite {
     constructor(img) {
         super(img);
