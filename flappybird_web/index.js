@@ -187,6 +187,52 @@ class Res_img {
     }
 };
 
+class Sprite {
+    constructor(img) {
+        this.img = img;
+        this.x = 0;
+        this.y = 0;
+        this.width = img.width;
+        this.height = img.height;
+    }
+
+    draw() {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    move(dx, dy) {
+        this.x += dx;
+        this.y += dy;
+    }
+
+    moveTo(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+};
+
+class Background extends Sprite {
+    constructor(img) {
+        super(img);
+        this.arr = new Array();
+        let num = (Math.floor(canvas.width / this.width) + 1) * 2;
+        for (let i = 0; i < num; i++)
+            this.arr.push(i * this.width);
+    }
+
+    draw() {
+        for (let i = 0; i < this.arr.length; i++) {
+            ctx.drawImage(this.img, this.arr[i], 0, this.width, canvas.height);
+            this.arr[i] -= Config.background_dx;
+        }
+        if (this.arr[0] <= -this.width) {
+            for (let i = 0; i < this.arr.length; i++) {
+                this.arr[i] += this.width;
+            }
+        }
+    }
+};
+
 Res_img.load();
 
 let timer = setInterval(function () {
@@ -194,23 +240,11 @@ let timer = setInterval(function () {
     if (!Res_img.is_ready()) return;
     clearInterval(timer);
 
-    let arr = new Array();
-    let num = (Math.floor(canvas.width / Res_img.background_day.width) + 1) * 2;
-    for (let i = 0; i < num; i++) {
-        arr.push(i * Res_img.background_day.width);
-    }
+    let background_day = new Background(Res_img.background_day);
 
     timer = setInterval(function () {
 
-        for (let i = 0; i < arr.length; i++) {
-            ctx.drawImage(Res_img.background_day, arr[i], 0, Res_img.background_day.width, canvas.height);
-            arr[i] -= Config.background_dx;
-        }
-        if (arr[0] <= -Res_img.background_day.width) {
-            for (let i = 0; i < arr.length; i++) {
-                arr[i] += Res_img.background_day.width;
-            }
-        }
+        background_day.draw();
 
     }, Config.frameUpdateTime);
 
