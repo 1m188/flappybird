@@ -215,8 +215,8 @@ class Sprite {
  * 背景
  */
 class Background extends Sprite {
-    constructor(img) {
-        super(img);
+    constructor() {
+        super(Res_img.background_day);
         this.width = canvas.height / this.height * this.width;
         this.height = canvas.height;
     }
@@ -240,8 +240,8 @@ class Background extends Sprite {
  * 地面
  */
 class Base extends Sprite {
-    constructor(img) {
-        super(img);
+    constructor() {
+        super(Res_img.base);
         this.moveTo(0, canvas.height - this.height);
     }
 
@@ -264,8 +264,8 @@ Res_img.load(main);
 
 function main() {
 
-    let background_day = new Background(Res_img.background_day);
-    let base = new Base(Res_img.base);
+    let background_day = new Background();
+    let base = new Base();
 
     setInterval(function () {
 
