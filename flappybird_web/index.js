@@ -103,7 +103,7 @@ class Res_img {
      * 加载所有图片资源
      */
     static load() {
-        if (Res_img.numbers.length != 0) return;
+        if (Res_img.numbers.length != 0) return; // 已经加载完了就不必再加载了
 
         for (let i = 0; i <= 9; i++) {
             let img = new Image();
