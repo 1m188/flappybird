@@ -182,6 +182,18 @@ class Sprite {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    before_draw() {
+    }
+
+    after_draw() {
+    }
+
+    run() {
+        this.before_draw();
+        this.draw();
+        this.after_draw();
+    }
+
     move(dx, dy) {
         this.x += dx;
         this.y += dy;
@@ -229,7 +241,7 @@ let timer = setInterval(function () {
 
     timer = setInterval(function () {
 
-        background_day.draw();
+        background_day.run();
 
     }, 1000 / 60);
 
