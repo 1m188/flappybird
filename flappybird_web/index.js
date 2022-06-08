@@ -236,17 +236,43 @@ class Background extends Sprite {
     }
 };
 
+/**
+ * 地面
+ */
+class Base extends Sprite {
+    constructor(img) {
+        super(img);
+        this.moveTo(0, canvas.height - this.height);
+    }
+
+    after_draw() {
+        let end = this.x + this.width;
+        while (end < canvas.width) {
+            ctx.drawImage(this.img, end, this.y, this.width, this.height);
+            end += this.width;
+        }
+
+        this.move(-1, 0);
+
+        if (this.x + this.width <= 0) {
+            this.moveTo(0, this.y);
+        }
+    }
+};
+
 Res_img.load(main);
 
 function main() {
 
     let background_day = new Background(Res_img.background_day);
+    let base = new Base(Res_img.base);
 
     setInterval(function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         background_day.run();
+        base.run();
 
     }, 1000 / 60);
 }
