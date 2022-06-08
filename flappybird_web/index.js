@@ -5,27 +5,6 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 /**
- * 设置
- */
-class Config {
-
-    /**
-     * 帧数
-     */
-    static FPS = 60;
-
-    /**
-     * 每帧的更新时间
-     */
-    static frameUpdateTime = 1000 / this.FPS;
-
-    /**
-     * 背景在每帧中移动的距离
-     */
-    static background_dx = 0.5;
-};
-
-/**
  * 图片资源
  */
 class Res_img {
@@ -229,7 +208,7 @@ class Background extends Sprite {
     draw() {
         for (let i = 0; i < this.arr.length; i++) {
             ctx.drawImage(this.img, this.arr[i], 0, this.width, canvas.height);
-            this.arr[i] -= Config.background_dx;
+            this.arr[i] -= 1;
         }
         if (this.arr[0] <= -this.width) {
             for (let i = 0; i < this.arr.length; i++) {
@@ -252,6 +231,6 @@ let timer = setInterval(function () {
 
         background_day.draw();
 
-    }, Config.frameUpdateTime);
+    }, 1000 / 60);
 
 }, 10);
