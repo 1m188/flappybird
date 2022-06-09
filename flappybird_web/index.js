@@ -45,57 +45,67 @@ class Res_img {
     static message = new Image();
 
     /**
-     * 水管-绿色
+     * 水管 绿色 向上
      */
-    static pipe_green = new Image();
+    static pipe_green_up = new Image();
 
     /**
-     * 水管-红色
+     * 水管 绿色 向下
      */
-    static pipe_red = new Image();
+     static pipe_green_down = new Image();
 
     /**
-     * 蓝鸟-翅膀向下
+     * 水管 红色 向上
+     */
+    static pipe_red_up = new Image();
+
+    /**
+     * 水管 红色 向下
+     */
+     static pipe_red_down = new Image();
+
+    /**
+     * 蓝鸟 翅膀向下
      */
     static bluebird_downflap = new Image();
 
     /**
-     * 蓝鸟-翅膀向中
+     * 蓝鸟 翅膀向中
      */
     static bluebird_midflap = new Image();
 
     /**
-     * 蓝鸟-翅膀向上
+     * 蓝鸟 翅膀向上
      */
     static bluebird_upflap = new Image();
 
     /**
-     * 红鸟-翅膀向下
+     * 红鸟 翅膀向下
      */
     static redbird_downflap = new Image();
 
     /**
-     * 红鸟-翅膀向中
+     * 红鸟 翅膀向中
      */
     static redbird_midflap = new Image();
 
     /**
-     * 红鸟-翅膀向上
+     * 红鸟 翅膀向上
      */
     static redbird_upflap = new Image();
 
     /**
-     * 黄鸟-翅膀向下
+     * 黄鸟 翅膀向下
      */
     static yellowbird_downflap = new Image();
 
     /**
-     * 黄鸟-翅膀向中
+     * 黄鸟 翅膀向中
      */
     static yellowbird_midflap = new Image();
 
     /**
-     * 黄鸟-翅膀向上
+     * 黄鸟 翅膀向上
      */
     static yellowbird_upflap = new Image();
 
@@ -107,57 +117,63 @@ class Res_img {
 
         for (let i = 0; i <= 9; i++) {
             let img = new Image();
-            img.src = "../asset/image/" + String(i) + ".png";
+            img.src = "./asset/image/" + String(i) + ".png";
             img.onload = function () { Res_img.num++; }
             Res_img.numbers.push(img);
         }
 
-        Res_img.background_day.src = "../asset/image/background-day.png"
+        Res_img.background_day.src = "./asset/image/background_day.png"
         Res_img.background_day.onload = function () { Res_img.num++ };
 
-        Res_img.background_night.src = "../asset/image/background-night.png"
+        Res_img.background_night.src = "./asset/image/background_night.png"
         Res_img.background_night.onload = function () { Res_img.num++ };
 
-        Res_img.base.src = "../asset/image/base.png"
+        Res_img.base.src = "./asset/image/base.png"
         Res_img.base.onload = function () { Res_img.num++ };
 
-        Res_img.gameover.src = "../asset/image/gameover.png"
+        Res_img.gameover.src = "./asset/image/gameover.png"
         Res_img.gameover.onload = function () { Res_img.num++ };
 
-        Res_img.message.src = "../asset/image/message.png"
+        Res_img.message.src = "./asset/image/message.png"
         Res_img.message.onload = function () { Res_img.num++ };
 
-        Res_img.pipe_green.src = "../asset/image/pipe-green.png"
-        Res_img.pipe_green.onload = function () { Res_img.num++ };
+        Res_img.pipe_green_up.src = "./asset/image/pipe_green_up.png"
+        Res_img.pipe_green_up.onload = function () { Res_img.num++ };
 
-        Res_img.pipe_red.src = "../asset/image/pipe-red.png"
-        Res_img.pipe_red.onload = function () { Res_img.num++ };
+        Res_img.pipe_green_down.src = "./asset/image/pipe_green_down.png"
+        Res_img.pipe_green_down.onload = function () { Res_img.num++ };
 
-        Res_img.bluebird_downflap.src = "../asset/image/bluebird-downflap.png"
+        Res_img.pipe_red_up.src = "./asset/image/pipe_red_up.png"
+        Res_img.pipe_red_up.onload = function () { Res_img.num++ };
+
+        Res_img.pipe_red_down.src = "./asset/image/pipe_red_down.png"
+        Res_img.pipe_red_down.onload = function () { Res_img.num++ };
+
+        Res_img.bluebird_downflap.src = "./asset/image/bluebird_downflap.png"
         Res_img.bluebird_downflap.onload = function () { Res_img.num++ };
 
-        Res_img.bluebird_midflap.src = "../asset/image/bluebird-midflap.png"
+        Res_img.bluebird_midflap.src = "./asset/image/bluebird_midflap.png"
         Res_img.bluebird_midflap.onload = function () { Res_img.num++ };
 
-        Res_img.bluebird_upflap.src = "../asset/image/bluebird-upflap.png"
+        Res_img.bluebird_upflap.src = "./asset/image/bluebird_upflap.png"
         Res_img.bluebird_upflap.onload = function () { Res_img.num++ };
 
-        Res_img.redbird_downflap.src = "../asset/image/redbird-downflap.png"
+        Res_img.redbird_downflap.src = "./asset/image/redbird_downflap.png"
         Res_img.redbird_downflap.onload = function () { Res_img.num++ };
 
-        Res_img.redbird_midflap.src = "../asset/image/redbird-midflap.png"
+        Res_img.redbird_midflap.src = "./asset/image/redbird_midflap.png"
         Res_img.redbird_midflap.onload = function () { Res_img.num++ };
 
-        Res_img.redbird_upflap.src = "../asset/image/redbird-upflap.png"
+        Res_img.redbird_upflap.src = "./asset/image/redbird_upflap.png"
         Res_img.redbird_upflap.onload = function () { Res_img.num++ };
 
-        Res_img.yellowbird_downflap.src = "../asset/image/yellowbird-downflap.png"
+        Res_img.yellowbird_downflap.src = "./asset/image/yellowbird_downflap.png"
         Res_img.yellowbird_downflap.onload = function () { Res_img.num++ };
 
-        Res_img.yellowbird_midflap.src = "../asset/image/yellowbird-midflap.png"
+        Res_img.yellowbird_midflap.src = "./asset/image/yellowbird_midflap.png"
         Res_img.yellowbird_midflap.onload = function () { Res_img.num++ };
 
-        Res_img.yellowbird_upflap.src = "../asset/image/yellowbird-upflap.png"
+        Res_img.yellowbird_upflap.src = "./asset/image/yellowbird_upflap.png"
         Res_img.yellowbird_upflap.onload = function () { Res_img.num++ };
 
         let timer = setInterval(function () {
@@ -168,7 +184,7 @@ class Res_img {
     }
 
     static is_ready() {
-        return Res_img.num == 26;
+        return Res_img.num == 28;
     }
 };
 
