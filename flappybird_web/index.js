@@ -260,12 +260,55 @@ class Base extends Sprite {
     }
 };
 
+/**
+ * 小鸟
+ */
+class Bird extends Sprite {
+    constructor() {
+        super(Res_img.redbird_upflap);
+
+        // 动画
+        this.ani = new Array();
+        this.ani.push(Res_img.redbird_upflap);
+        this.ani.push(Res_img.redbird_midflap);
+        this.ani.push(Res_img.redbird_downflap);
+        this.ani.push(Res_img.redbird_midflap);
+
+        this.ani_idx = 0; // 当前动画显示图片
+
+        let that = this;
+
+        // 每隔一定时间图片变换，达到动画放映的效果
+        this.ani_timer = setInterval(function () {
+            that.ani_idx = (that.ani_idx + 1) % that.ani.length;
+            that.img = that.ani[that.ani_idx];
+        }, 200);
+
+        this.dy = 0.5;
+        this.acc = 0.9;
+
+        // 按键监听
+        document.onclick = function () {
+            that.move(0, -8);
+            that.dy = -8;
+        }
+
+        this.moveTo(canvas.width / 6, canvas.height / 4);
+    }
+
+    after_draw() {
+        this.move(0, this.dy);
+        this.dy += this.acc;
+    }
+};
+
 Res_img.load(main);
 
 function main() {
 
     let background = new Background();
     let base = new Base();
+    let bird = new Bird();
 
     setInterval(function () {
 
@@ -273,6 +316,7 @@ function main() {
 
         background.run();
         base.run();
+        bird.run();
 
     }, 1000 / 60);
 }
