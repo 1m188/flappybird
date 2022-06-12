@@ -318,6 +318,39 @@ class Bird extends Sprite {
     }
 };
 
+class Pipe {
+    constructor() {
+        this.up = new Sprite(Res_img.pipe_green_up);
+        this.down = new Sprite(Res_img.pipe_green_down);
+        this.up.x = this.down.x = canvas.width;
+        this.dist = Math.max(canvas.height - Res_img.base.height - this.up.height - this.down.height, Res_img.bluebird_downflap.height + 200);
+        this.minbottom = Math.max(5, canvas.height - Res_img.base.height - this.up.height - this.dist);
+        this.maxbottom = Math.min(this.down.height, canvas.height - Res_img.base.height - 5 - this.dist);
+        this.get_random_pos();
+    }
+
+    get_random(min, max) {
+        return Math.floor(Math.random() * (max + 1 - min) + min);
+    }
+
+    get_random_pos() {
+        let dist_y = this.get_random(this.minbottom, this.maxbottom);
+        this.down.y = dist_y - this.down.height;
+        this.up.y = dist_y + this.dist;
+    }
+
+    run() {
+        this.up.draw();
+        this.down.draw();
+        this.up.x -= speed;
+        this.down.x -= speed;
+        if (this.up.x + this.up.width <= 0) {
+            this.up.x = this.down.x = canvas.width;
+            this.get_random_pos();
+        }
+    }
+};
+
 Res_img.load(main);
 
 function main() {
@@ -326,11 +359,14 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
+    let pipe = new Pipe();
+
     setInterval(function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         background.run();
+        pipe.run();
         base.run();
         bird.run();
 
