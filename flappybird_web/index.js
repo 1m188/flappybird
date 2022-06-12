@@ -52,7 +52,7 @@ class Res_img {
     /**
      * 水管 绿色 向下
      */
-     static pipe_green_down = new Image();
+    static pipe_green_down = new Image();
 
     /**
      * 水管 红色 向上
@@ -62,7 +62,7 @@ class Res_img {
     /**
      * 水管 红色 向下
      */
-     static pipe_red_down = new Image();
+    static pipe_red_down = new Image();
 
     /**
      * 蓝鸟 翅膀向下
