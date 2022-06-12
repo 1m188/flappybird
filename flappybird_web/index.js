@@ -4,6 +4,8 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+const speed = 2;
+
 /**
  * 图片资源
  */
@@ -244,7 +246,7 @@ class Background extends Sprite {
             end += this.width;
         }
 
-        this.move(-1, 0);
+        this.move(-speed, 0);
 
         if (this.x + this.width <= 0) {
             this.moveTo(0, 0);
@@ -268,7 +270,7 @@ class Base extends Sprite {
             end += this.width;
         }
 
-        this.move(-1, 0);
+        this.move(-speed, 0);
 
         if (this.x + this.width <= 0) {
             this.moveTo(0, this.y);
