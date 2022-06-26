@@ -329,6 +329,7 @@ class Pipe {
         this.minbottom = Math.max(5, canvas.height - Res_img.base.height - this.up.height - this.dist);
         this.maxbottom = Math.min(this.down.height, canvas.height - Res_img.base.height - 5 - this.dist);
         this.get_random_pos();
+        this.isleftbird = false;
     }
 
     get_random(min, max) {
@@ -346,10 +347,6 @@ class Pipe {
         this.down.draw();
         this.up.x -= speed;
         this.down.x -= speed;
-        if (this.up.x + this.up.width <= 0) {
-            this.up.x = this.down.x = canvas.width;
-            this.get_random_pos();
-        }
     }
 };
 
@@ -361,14 +358,28 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
-    let pipe = new Pipe();
+    let pipes = new Array();
+    pipes.push(new Pipe());
 
     setInterval(function () {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         background.run();
-        pipe.run();
+        for (let i = 0; i < pipes.length;) {
+            let e = pipes[i];
+            e.run();
+            if (e.up.x + e.up.width <= 0) {
+                pipes.splice(i, 1);
+            } else {
+                if (e.up.x + e.up.width <= bird.x && !e.isleftbird) {
+                    e.isleftbird = true;
+                    pipes.push(new Pipe());
+                }
+                i++;
+            }
+        }
+
         base.run();
         bird.run();
 
