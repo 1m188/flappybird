@@ -4,7 +4,11 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+/** 画面速度 */
 const speed = 2;
+
+/** 一帧多少秒 */
+const SPF = 1000 / 60;
 
 /**
  * 图片资源
@@ -190,25 +194,46 @@ class Res_img {
     }
 };
 
+/******************************************* ↓ 场景 ↓ *************************************************/
+
 /**
  * 场景类
  */
 class Scene {
     constructor() {
-        this.timer = null;
+        this.run_timer = null;
+        this.render_timer = null;
     }
 
-    start(interval) {
+    start_render(interval) {
         let that = this;
-        this.timer = setInterval(this.run, interval, that);
+        this.render_timer = setInterval(this.render, interval, that);
     }
 
-    stop() {
-        if (this.timer != null) {
-            clearInterval(this.timer);
-            this.timer = null;
+    stop_render() {
+        if (this.render_timer != null) {
+            clearInterval(this.render_timer);
+            this.render_timer = null;
         }
     }
+
+    start_run(interval) {
+        let that = this;
+        this.run_timer = setInterval(this.run, interval, that);
+    }
+
+    stop_run() {
+        if (this.run_timer != null) {
+            clearInterval(this.run_timer);
+            this.run_timer = null;
+        }
+    }
+
+    /**
+     * 场景每帧渲染之内容
+     * @param {Scene} instance 本类实例引用
+     */
+    render(instance) { }
 
     /**
      * 场景每帧所进行之操作
@@ -233,12 +258,26 @@ class GameScene extends Scene {
      * @param {GameScene} instance 
      */
     run(instance) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         instance.sprites.forEach((v) => {
             v.run();
         });
     }
+
+    /**
+     * 
+     * @param {GameScene} instance 
+     */
+    render(instance) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        instance.sprites.forEach((v) => {
+            v.render();
+        });
+    }
 }
+
+/******************************************* ↑ 场景 ↑ *************************************************/
+
+/******************************************* ↓ 精灵 ↓ *************************************************/
 
 /**
  * 精灵类
@@ -252,21 +291,17 @@ class Sprite {
         this.height = img.height;
     }
 
-    draw() {
+    /**
+     * 每帧渲染操作
+     */
+    render() {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    before_draw() {
-    }
-
-    after_draw() {
-    }
-
-    run() {
-        this.before_draw();
-        this.draw();
-        this.after_draw();
-    }
+    /**
+     * 每帧逻辑操作
+     */
+    run() { }
 
     move(dx, dy) {
         this.x += dx;
@@ -289,8 +324,8 @@ class Background extends Sprite {
         this.height = canvas.height;
     }
 
-    draw() {
-        super.draw();
+    render() {
+        super.render();
         let end = this.x + this.width;
         while (end < canvas.width) {
             ctx.drawImage(this.img, end, 0, this.width, this.height);
@@ -298,7 +333,7 @@ class Background extends Sprite {
         }
     }
 
-    after_draw() {
+    run() {
         this.move(-speed, 0);
 
         if (this.x + this.width <= 0) {
@@ -316,8 +351,8 @@ class Base extends Sprite {
         this.moveTo(0, canvas.height - this.height);
     }
 
-    draw() {
-        super.draw();
+    render() {
+        super.render();
         let end = this.x + this.width;
         while (end < canvas.width) {
             ctx.drawImage(this.img, end, this.y, this.width, this.height);
@@ -325,7 +360,7 @@ class Base extends Sprite {
         }
     }
 
-    after_draw() {
+    run() {
         this.move(-speed, 0);
 
         if (this.x + this.width <= 0) {
@@ -370,7 +405,7 @@ class Bird extends Sprite {
         this.moveTo(canvas.width / 6, canvas.height / 4);
     }
 
-    after_draw() {
+    run() {
         this.move(0, this.dy);
         this.dy += this.acc;
     }
@@ -389,6 +424,8 @@ class Bird extends Sprite {
             Math.abs(y1 - y2) < this.height / 2 + rect.height / 2;
     }
 };
+
+/******************************************* ↑ 精灵 ↑ *************************************************/
 
 class Pipe {
     constructor() {
@@ -413,8 +450,8 @@ class Pipe {
     }
 
     run() {
-        this.up.draw();
-        this.down.draw();
+        this.up.render();
+        this.down.render();
         this.up.x -= speed;
         this.down.x -= speed;
     }
@@ -432,7 +469,8 @@ function main() {
     pipes.push(new Pipe());
 
     let gameScene = new GameScene(background, base, bird);
-    gameScene.start(1000 / 60);
+    gameScene.start_render(SPF);
+    gameScene.start_run(SPF);
 
     // setInterval(function () {
 
