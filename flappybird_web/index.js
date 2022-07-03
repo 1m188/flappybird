@@ -226,7 +226,6 @@ class GameScene extends Scene {
     constructor(...args) {
         super();
         this.sprites = args;
-        console.log(this.sprites)
     }
 
     /**
