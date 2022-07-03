@@ -191,6 +191,57 @@ class Res_img {
 };
 
 /**
+ * 场景类
+ */
+class Scene {
+    constructor() {
+        this.timer = null;
+    }
+
+    start(interval) {
+        let that = this;
+        this.timer = setInterval(this.run, interval, that);
+    }
+
+    stop() {
+        if (this.timer != null) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+    }
+
+    /**
+     * 场景每帧所进行之操作
+     * @param {Scene} instance 因为run作为参数在setinterval里运行，
+     * 因此其中this指向setinterval函数本身，将原来的类实例传入，使其
+     * 能够访问原本类实例的各种属性
+     */
+    run(instance) { }
+}
+
+/**
+ * 游戏场景
+ */
+class GameScene extends Scene {
+    constructor(...args) {
+        super();
+        this.sprites = args;
+        console.log(this.sprites)
+    }
+
+    /**
+     * 
+     * @param {GameScene} instance 
+     */
+    run(instance) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        instance.sprites.forEach((v) => {
+            v.run();
+        });
+    }
+}
+
+/**
  * 精灵类
  */
 class Sprite {
@@ -239,13 +290,16 @@ class Background extends Sprite {
         this.height = canvas.height;
     }
 
-    after_draw() {
+    draw() {
+        super.draw();
         let end = this.x + this.width;
         while (end < canvas.width) {
             ctx.drawImage(this.img, end, 0, this.width, this.height);
             end += this.width;
         }
+    }
 
+    after_draw() {
         this.move(-speed, 0);
 
         if (this.x + this.width <= 0) {
@@ -263,13 +317,16 @@ class Base extends Sprite {
         this.moveTo(0, canvas.height - this.height);
     }
 
-    after_draw() {
+    draw() {
+        super.draw();
         let end = this.x + this.width;
         while (end < canvas.width) {
             ctx.drawImage(this.img, end, this.y, this.width, this.height);
             end += this.width;
         }
+    }
 
+    after_draw() {
         this.move(-speed, 0);
 
         if (this.x + this.width <= 0) {
@@ -375,27 +432,47 @@ function main() {
     let pipes = new Array();
     pipes.push(new Pipe());
 
-    setInterval(function () {
+    let gameScene = new GameScene(background, base, bird);
+    gameScene.start(1000 / 60);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // setInterval(function () {
 
-        background.run();
-        for (let i = 0; i < pipes.length;) {
-            let e = pipes[i];
-            e.run();
-            if (e.up.x + e.up.width <= 0) {
-                pipes.splice(i, 1);
-            } else {
-                if (e.up.x + e.up.width <= bird.x && !e.isleftbird) {
-                    e.isleftbird = true;
-                    pipes.push(new Pipe());
-                }
-                i++;
-            }
-        }
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        base.run();
-        bird.run();
+    //     background.run();
+    //     for (let i = 0; i < pipes.length;) {
+    //         let e = pipes[i];
+    //         e.run();
+    //         if (e.up.x + e.up.width <= 0) {
+    //             pipes.splice(i, 1);
+    //         } else {
+    //             if (e.up.x + e.up.width <= bird.x && !e.isleftbird) {
+    //                 e.isleftbird = true;
+    //                 pipes.push(new Pipe());
+    //             }
+    //             i++;
+    //         }
+    //     }
 
-    }, 1000 / 60);
+    //     let f = false;
+    //     if (bird.collide(base) || bird.y <= 0) {
+    //         f = true;
+    //     }
+    //     else {
+    //         for (let i = 0; i < pipes.length; i++) {
+    //             if (bird.collide(pipes[i].up) || bird.collide(pipes[i].down)) {
+    //                 f = true;
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     if (f) {
+    //         bird.onclick = null;
+    //     } else {
+    //         base.run();
+    //     }
+
+    //     bird.run();
+    // }, 1000 / 60);
 }
