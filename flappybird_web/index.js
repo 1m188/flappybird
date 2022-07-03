@@ -318,6 +318,20 @@ class Bird extends Sprite {
         this.move(0, this.dy);
         this.dy += this.acc;
     }
+
+    /**
+     * 碰撞检测
+     * @param {Sprite} rect 待检测矩形
+     * @return 是否撞上 true/false
+     */
+    collide(rect) {
+        let x1 = this.x + this.width / 2;
+        let y1 = this.y + this.height / 2;
+        let x2 = rect.x + rect.width / 2;
+        let y2 = rect.y + rect.height / 2;
+        return Math.abs(x1 - x2) < this.width / 2 + rect.width / 2 &&
+            Math.abs(y1 - y2) < this.height / 2 + rect.height / 2;
+    }
 };
 
 class Pipe {
