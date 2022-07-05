@@ -200,9 +200,17 @@ class Res_img {
  * 场景类
  */
 class Scene {
-    constructor() {
+    /**
+     * 
+     * @param  {...Iterable|Sprite} args 待渲染之所有sprite
+     */
+    constructor(...args) {
         this.run_timer = null;
         this.render_timer = null;
+        /**所有待渲染sprite及其集合所组成的数组 */
+        this.arr = args;
+        /**判定是否是可迭代对象函数 */
+        this.isIterable = obj => obj != null && typeof obj[Symbol.iterator] === 'function';
     }
 
     start_render(interval) {
@@ -230,10 +238,32 @@ class Scene {
     }
 
     /**
+     * 迭代渲染
+     * @param {Iterable|Sprite} obj 待渲染的sprite或可迭代对象
+     */
+    iter_render(obj) {
+        if (!this.isIterable(obj)) obj.render();
+        // 注意 for of 的使用，别错用成 for in 了！！
+        else for (let o of obj) this.iter_render(o);
+    }
+
+    /**
      * 场景每帧渲染之内容
      * @param {Scene} instance 本类实例引用
      */
-    render(instance) { }
+    render(instance) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        instance.iter_render(instance.arr);
+    }
+
+    /**
+     * 迭代逻辑操作
+     * @param {Iterable|Sprite} obj 
+     */
+    iter_run(obj) {
+        if (!this.isIterable(obj)) obj.run();
+        else for (let o of obj) this.iter_run(o);
+    }
 
     /**
      * 场景每帧所进行之操作
@@ -241,38 +271,16 @@ class Scene {
      * 因此其中this指向setinterval函数本身，将原来的类实例传入，使其
      * 能够访问原本类实例的各种属性
      */
-    run(instance) { }
+    run(instance) {
+        instance.iter_run(instance.arr);
+    }
 }
 
 /**
  * 游戏场景
  */
 class GameScene extends Scene {
-    constructor(...args) {
-        super();
-        this.sprites = args;
-    }
 
-    /**
-     * 
-     * @param {GameScene} instance 
-     */
-    run(instance) {
-        instance.sprites.forEach((v) => {
-            v.run();
-        });
-    }
-
-    /**
-     * 
-     * @param {GameScene} instance 
-     */
-    render(instance) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        instance.sprites.forEach((v) => {
-            v.render();
-        });
-    }
 }
 
 /******************************************* ↑ 场景 ↑ *************************************************/
@@ -473,9 +481,7 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
-    let t = get_pipes();
-
-    let gameScene = new GameScene(background, t[0], t[1], base, bird);
+    let gameScene = new GameScene(background, get_pipes(), base, bird);
     gameScene.start_render(SPF);
     gameScene.start_run(SPF);
 
