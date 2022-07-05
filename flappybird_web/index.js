@@ -412,15 +412,11 @@ class Bird extends Sprite {
         this.ani.push(Res_img.redbird_downflap);
         this.ani.push(Res_img.redbird_midflap);
 
-        this.ani_idx = 0; // 当前动画显示图片
+        this.ani_idx = 0; // 当前动画显示图片索引
+        this.ani_cnt = 0; // 帧数计数
+        this.ani_num = 220 / SPF; // 目标帧数
 
         let that = this;
-
-        // 每隔一定时间图片变换，达到动画放映的效果
-        this.ani_timer = setInterval(function () {
-            that.ani_idx = (that.ani_idx + 1) % that.ani.length;
-            that.img = that.ani[that.ani_idx];
-        }, 200);
 
         this.dy = 0.5;
         this.acc = 0.9;
@@ -432,6 +428,17 @@ class Bird extends Sprite {
         }
 
         this.moveTo(canvas.width / 6, canvas.height / 4);
+    }
+
+    render() {
+        super.render();
+
+        // 每隔一定时间图片变换，达到动画放映的效果
+        if (++this.ani_cnt >= this.ani_num) {
+            this.ani_idx = (this.ani_idx + 1) % this.ani.length;
+            this.img = this.ani[this.ani_idx];
+            this.ani_cnt = 0;
+        }
     }
 
     run() {
