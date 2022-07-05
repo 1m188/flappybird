@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-/** 画面速度 */
+/** 每帧画面移动速度 */
 const speed = 2;
 
 /** 一帧多少毫秒 */
