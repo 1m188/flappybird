@@ -416,8 +416,8 @@ class Bird extends Sprite {
         this.ani_cnt = 0; // 帧数计数
         this.ani_num = 220 / MSPF; // 目标帧数
 
-        this.dy = 0.5;
-        this.acc = 0.9;
+        this.dy = 0.5; // 速度
+        this.acc = 0.9; // 加速度
 
         this.init();
     }
