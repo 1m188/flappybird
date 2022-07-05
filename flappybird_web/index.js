@@ -202,13 +202,13 @@ class Res_img {
 class Scene {
     /**
      * 
-     * @param  {...Iterable|Sprite} args 待渲染之所有sprite
+     * @param  {[Iterable|Sprite]} sprites 待渲染之所有sprite
      */
-    constructor(...args) {
+    constructor(sprites) {
         this.run_timer = null;
         this.render_timer = null;
         /**所有待渲染sprite及其集合所组成的数组 */
-        this.arr = args;
+        this.sprites = sprites;
         /**判定是否是可迭代对象函数 */
         this.isIterable = obj => obj != null && typeof obj[Symbol.iterator] === 'function';
     }
@@ -253,7 +253,7 @@ class Scene {
      */
     render(instance) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        instance.iter_render(instance.arr);
+        instance.iter_render(instance.sprites);
     }
 
     /**
@@ -272,7 +272,7 @@ class Scene {
      * 能够访问原本类实例的各种属性
      */
     run(instance) {
-        instance.iter_run(instance.arr);
+        instance.iter_run(instance.sprites);
     }
 }
 
@@ -280,9 +280,9 @@ class Scene {
  * 游戏场景
  */
 class GameScene extends Scene {
-    constructor(...args) {
-        super(...args);
-        this.pipes = this.arr[1];
+    constructor(sprites) {
+        super(sprites);
+        this.pipes = this.sprites[1];
     }
 
     run(instance) {
@@ -294,7 +294,7 @@ class GameScene extends Scene {
             if (eup.x + eup.width <= 0) {
                 instance.pipes.splice(i, 1);
             } else {
-                if (eup.x + eup.width <= instance.arr[3].x && !eup.isleftbird) {
+                if (eup.x + eup.width <= instance.sprites[3].x && !eup.isleftbird) {
                     eup.isleftbird = edown.isleftbird = true;
                     instance.pipes.push(get_pipes());
                 }
@@ -504,7 +504,7 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
-    let gameScene = new GameScene(background, [get_pipes()], base, bird);
+    let gameScene = new GameScene([background, [get_pipes()], base, bird]);
     gameScene.start_render(SPF);
     gameScene.start_run(SPF);
 }
