@@ -280,7 +280,28 @@ class Scene {
  * 游戏场景
  */
 class GameScene extends Scene {
+    constructor(...args) {
+        super(...args);
+        this.pipes = this.arr[1];
+    }
 
+    run(instance) {
+        super.run(instance);
+
+        /**水管过去后出现新的水管 */
+        for (let i = 0; i < instance.pipes.length;) {
+            let eup = instance.pipes[i][0], edown = instance.pipes[i][1];
+            if (eup.x + eup.width <= 0) {
+                instance.pipes.splice(i, 1);
+            } else {
+                if (eup.x + eup.width <= instance.arr[3].x && !eup.isleftbird) {
+                    eup.isleftbird = edown.isleftbird = true;
+                    instance.pipes.push(get_pipes());
+                }
+                i++;
+            }
+        }
+    }
 }
 
 /******************************************* ↑ 场景 ↑ *************************************************/
@@ -439,6 +460,8 @@ class Bird extends Sprite {
 class Pipe extends Sprite {
     constructor(img) {
         super(img);
+        /**是否已经被小鸟通过 */
+        this.isleftbird = false;
     }
 
     run() {
@@ -481,48 +504,7 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
-    let gameScene = new GameScene(background, get_pipes(), base, bird);
+    let gameScene = new GameScene(background, [get_pipes()], base, bird);
     gameScene.start_render(SPF);
     gameScene.start_run(SPF);
-
-    // setInterval(function () {
-
-    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    //     background.run();
-    //     for (let i = 0; i < pipes.length;) {
-    //         let e = pipes[i];
-    //         e.run();
-    //         if (e.up.x + e.up.width <= 0) {
-    //             pipes.splice(i, 1);
-    //         } else {
-    //             if (e.up.x + e.up.width <= bird.x && !e.isleftbird) {
-    //                 e.isleftbird = true;
-    //                 pipes.push(new Pipe());
-    //             }
-    //             i++;
-    //         }
-    //     }
-
-    //     let f = false;
-    //     if (bird.collide(base) || bird.y <= 0) {
-    //         f = true;
-    //     }
-    //     else {
-    //         for (let i = 0; i < pipes.length; i++) {
-    //             if (bird.collide(pipes[i].up) || bird.collide(pipes[i].down)) {
-    //                 f = true;
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     if (f) {
-    //         bird.onclick = null;
-    //     } else {
-    //         base.run();
-    //     }
-
-    //     bird.run();
-    // }, 1000 / 60);
 }
