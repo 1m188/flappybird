@@ -7,8 +7,8 @@ canvas.height = window.innerHeight;
 /** 画面速度 */
 const speed = 2;
 
-/** 一帧多少秒 */
-const SPF = 1000 / 60;
+/** 一帧多少毫秒 */
+const MSPF = 1000 / 60;
 
 /**
  * 图片资源
@@ -414,7 +414,7 @@ class Bird extends Sprite {
 
         this.ani_idx = 0; // 当前动画显示图片索引
         this.ani_cnt = 0; // 帧数计数
-        this.ani_num = 220 / SPF; // 目标帧数
+        this.ani_num = 220 / MSPF; // 目标帧数
 
         let that = this;
 
@@ -512,6 +512,6 @@ function main() {
     let bird = new Bird();
 
     let gameScene = new GameScene([background, [get_pipes()], base, bird]);
-    gameScene.start_render(SPF);
-    gameScene.start_run(SPF);
+    gameScene.start_render(MSPF);
+    gameScene.start_run(MSPF);
 }
