@@ -416,12 +416,22 @@ class Bird extends Sprite {
         this.ani_cnt = 0; // 帧数计数
         this.ani_num = 220 / MSPF; // 目标帧数
 
-        let that = this;
-
         this.dy = 0.5;
         this.acc = 0.9;
 
+        this.init();
+    }
+
+    /**
+     * 小鸟的某些参数初始化
+     */
+    init() {
+        this.ani_idx = 0;
+        this.img = this.ani[this.ani_idx];
+        this.ani_cnt = 0;
+
         // 按键监听
+        let that = this;
         document.onclick = function () {
             that.move(0, -8);
             that.dy = -8;
