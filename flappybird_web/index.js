@@ -425,37 +425,45 @@ class Bird extends Sprite {
     }
 };
 
-/******************************************* ↑ 精灵 ↑ *************************************************/
-
-class Pipe {
-    constructor() {
-        this.up = new Sprite(Res_img.pipe_green_up);
-        this.down = new Sprite(Res_img.pipe_green_down);
-        this.up.x = this.down.x = canvas.width;
-        this.dist = Math.max(canvas.height - Res_img.base.height - this.up.height - this.down.height, Res_img.bluebird_downflap.height + 200);
-        this.minbottom = Math.max(5, canvas.height - Res_img.base.height - this.up.height - this.dist);
-        this.maxbottom = Math.min(this.down.height, canvas.height - Res_img.base.height - 5 - this.dist);
-        this.get_random_pos();
-        this.isleftbird = false;
-    }
-
-    get_random(min, max) {
-        return Math.floor(Math.random() * (max + 1 - min) + min);
-    }
-
-    get_random_pos() {
-        let dist_y = this.get_random(this.minbottom, this.maxbottom);
-        this.down.y = dist_y - this.down.height;
-        this.up.y = dist_y + this.dist;
+/**
+ * 水管
+ */
+class Pipe extends Sprite {
+    constructor(img) {
+        super(img);
     }
 
     run() {
-        this.up.render();
-        this.down.render();
-        this.up.x -= speed;
-        this.down.x -= speed;
+        this.x -= speed;
     }
 };
+
+/******************************************* ↑ 精灵 ↑ *************************************************/
+
+/**
+ * 获取一对随机高度的水管
+ * @returns 上、下 水管
+ */
+function get_pipes() {
+    let up = new Pipe(Res_img.pipe_green_up), down = new Pipe(Res_img.pipe_green_down);
+    up.x = down.x = canvas.width;
+
+    /**两水管之间的高度距离 */
+    let dist = Math.max(canvas.height - Res_img.base.height - up.height - down.height, Res_img.bluebird_downflap.height + 200);
+    /**水管最低边界 */
+    let minbottom = Math.max(5, canvas.height - Res_img.base.height - up.height - dist);
+    /**水管最高边界 */
+    let maxbottom = Math.min(down.height, canvas.height - Res_img.base.height - 5 - dist);
+
+    /**区间随机数函数 */
+    let get_random = (min, max) => { return Math.floor(Math.random() * (max + 1 - min) + min); };
+
+    let dist_y = get_random(minbottom, maxbottom);
+    down.y = dist_y - down.height;
+    up.y = dist_y + dist;
+
+    return [up, down];
+}
 
 Res_img.load(main);
 
@@ -465,10 +473,9 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
-    let pipes = new Array();
-    pipes.push(new Pipe());
+    let t = get_pipes();
 
-    let gameScene = new GameScene(background, base, bird);
+    let gameScene = new GameScene(background, t[0], t[1], base, bird);
     gameScene.start_render(SPF);
     gameScene.start_run(SPF);
 
