@@ -283,6 +283,7 @@ class GameScene extends Scene {
     constructor(sprites) {
         super(sprites);
         this.pipes = this.sprites[1];
+        this.bird = this.sprites[3];
     }
 
     run(instance) {
@@ -294,7 +295,7 @@ class GameScene extends Scene {
             if (eup.x + eup.width <= 0) {
                 instance.pipes.splice(i, 1);
             } else {
-                if (eup.x + eup.width <= instance.sprites[3].x && !eup.isleftbird) {
+                if (eup.x + eup.width <= instance.bird.x && !eup.isleftbird) {
                     eup.isleftbird = edown.isleftbird = true;
                     instance.pipes.push(get_pipes());
                 }
