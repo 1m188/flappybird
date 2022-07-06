@@ -307,7 +307,7 @@ class GameScene extends Scene {
                 }
             }
         }
-        if (f) {
+        if (f) { // 撞上则停止
             instance.stop_render();
             instance.stop_run();
         }
