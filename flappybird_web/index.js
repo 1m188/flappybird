@@ -284,9 +284,34 @@ class GameScene extends Scene {
         super(sprites);
         this.pipes = this.sprites[1];
         this.bird = this.sprites[3];
+        this.base = this.sprites[2];
     }
 
+    /**
+     * 
+     * @param {GameScene} instance 
+     */
     run(instance) {
+
+        // 判定小鸟是否撞上障碍物
+        let f = false;
+        if (instance.bird.y <= 0 ||
+            instance.bird.y + instance.bird.height > instance.base.y) {
+            f = true;
+        }
+        else {
+            for (let o of instance.pipes) {
+                if (instance.bird.collide(o)) {
+                    f = true;
+                    break;
+                }
+            }
+        }
+        if (f) {
+            instance.stop_render();
+            instance.stop_run();
+        }
+
         super.run(instance);
 
         /**水管过去后出现新的水管 */
