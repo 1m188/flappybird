@@ -4,12 +4,6 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-/** 每帧画面移动速度 */
-const speed = 2;
-
-/** 一帧多少毫秒 */
-const MSPF = 1000 / 60;
-
 /**
  * 图片资源
  */
@@ -192,6 +186,20 @@ class Res_img {
     static is_ready() {
         return Res_img.num == 28;
     }
+};
+
+/**
+ * 导演类
+ */
+class Director {
+    /**当前场景 */
+    static scene = null;
+
+    /** 每帧画面移动速度 */
+    static speed = 2;
+
+    /** 一帧多少毫秒 */
+    static MSPF = 1000 / 60;
 };
 
 /******************************************* ↓ 场景 ↓ *************************************************/
@@ -403,7 +411,7 @@ class Background extends Sprite {
     }
 
     run() {
-        this.move(-speed, 0);
+        this.move(-Director.speed, 0);
 
         if (this.x + this.width <= 0) {
             this.moveTo(0, 0);
@@ -430,7 +438,7 @@ class Base extends Sprite {
     }
 
     run() {
-        this.move(-speed, 0);
+        this.move(-Director.speed, 0);
 
         if (this.x + this.width <= 0) {
             this.moveTo(0, this.y);
@@ -454,7 +462,7 @@ class Bird extends Sprite {
 
         this.ani_idx = 0; // 当前动画显示图片索引
         this.ani_cnt = 0; // 帧数计数
-        this.ani_num = 220 / MSPF; // 目标帧数
+        this.ani_num = 220 / Director.MSPF; // 目标帧数
 
         this.dy = 0.5; // 速度
         this.acc = 0.9; // 加速度
@@ -508,7 +516,7 @@ class Pipe extends Sprite {
     }
 
     run() {
-        this.x -= speed;
+        this.x -= Director.speed;
     }
 };
 
@@ -547,7 +555,7 @@ function main() {
     let base = new Base();
     let bird = new Bird();
 
-    let gameScene = new GameScene([background, [get_pipes()], base, bird]);
-    gameScene.start_render(MSPF);
-    gameScene.start_run(MSPF);
+    Director.scene = new GameScene([background, [get_pipes()], base, bird]);
+    Director.scene.start_render(Director.MSPF);
+    Director.scene.start_run(Director.MSPF);
 }
