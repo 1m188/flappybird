@@ -316,7 +316,6 @@ class GameScene extends Scene {
             }
         }
         if (f) { // 撞上则停止
-            instance.stop_render();
             instance.stop_run();
         }
 
@@ -467,6 +466,13 @@ class Bird extends Sprite {
         this.dy = 0.5; // 速度
         this.acc = 0.9; // 加速度
 
+        // 按键监听
+        this.click = false;
+        let that = this;
+        document.onclick = function () {
+            that.click = true;
+        }
+
         this.init();
     }
 
@@ -478,18 +484,13 @@ class Bird extends Sprite {
         this.img = this.ani[this.ani_idx];
         this.ani_cnt = 0;
 
-        // 按键监听
-        let that = this;
-        document.onclick = function () {
-            that.move(0, -8);
-            that.dy = -8;
-        }
-
         this.moveTo(canvas.width / 6, canvas.height / 4);
     }
 
-    render() {
-        super.render();
+    run() {
+        // 小鸟自动掉下去
+        this.move(0, this.dy);
+        this.dy += this.acc;
 
         // 每隔一定时间图片变换，达到动画放映的效果
         if (++this.ani_cnt >= this.ani_num) {
@@ -497,11 +498,13 @@ class Bird extends Sprite {
             this.img = this.ani[this.ani_idx];
             this.ani_cnt = 0;
         }
-    }
 
-    run() {
-        this.move(0, this.dy);
-        this.dy += this.acc;
+        // 按键事件
+        if (this.click) {
+            this.click = false;
+            this.move(0, -8);
+            this.dy = -8;
+        }
     }
 };
 
