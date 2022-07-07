@@ -309,7 +309,7 @@ class GameScene extends Scene {
         }
         else {
             for (let o of instance.pipes) {
-                if (instance.bird.collide(o)) {
+                if (instance.bird.collide(o[0]) || instance.bird.collide(o[1])) {
                     f = true;
                     break;
                 }
