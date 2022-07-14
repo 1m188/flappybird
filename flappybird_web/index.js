@@ -277,23 +277,12 @@ class Scene {
     }
 
     /**
-     * 迭代逻辑操作
-     * @param {Iterable|Sprite} obj 
-     */
-    iter_run(obj) {
-        if (!this.isIterable(obj)) obj.run();
-        else for (let o of obj) this.iter_run(o);
-    }
-
-    /**
      * 场景每帧所进行之操作
      * @param {Scene} instance 因为run作为参数在setinterval里运行，
      * 因此其中this指向setinterval函数本身，将原来的类实例传入，使其
      * 能够访问原本类实例的各种属性
      */
-    run(instance) {
-        instance.iter_run(instance.sprites);
-    }
+    run(instance) { }
 }
 
 /**
@@ -331,7 +320,13 @@ class GameScene extends Scene {
             instance.stop_run();
         }
 
-        super.run(instance);
+        Director.background.run();
+        Director.base.run();
+        for(let o of instance.pipes){
+            o[0].run();
+            o[1].run();
+        }
+        Director.bird.run();
 
         /**水管过去后出现新的水管 */
         for (let i = 0; i < instance.pipes.length;) {
