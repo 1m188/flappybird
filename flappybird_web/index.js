@@ -200,6 +200,18 @@ class Director {
 
     /** 一帧多少毫秒 */
     static MSPF = 1000 / 60;
+
+    /** 背景 */
+    static background = null;
+
+    /** 地面 */
+    static base = null;
+
+    /** 小鸟 */
+    static bird = null;
+
+    /** 水管对组成的数组 */
+    static pipes = [];
 };
 
 /******************************************* ↓ 场景 ↓ *************************************************/
@@ -554,11 +566,12 @@ Res_img.load(main);
 
 function main() {
 
-    let background = new Background();
-    let base = new Base();
-    let bird = new Bird();
+    Director.background = new Background();
+    Director.base = new Base();
+    Director.bird = new Bird();
+    Director.pipes.push(get_pipes());
 
-    Director.scene = new GameScene([background, [get_pipes()], base, bird]);
+    Director.scene = new GameScene([Director.background, Director.pipes, Director.base, Director.bird]);
     Director.scene.start_render(Director.MSPF);
     Director.scene.start_run(Director.MSPF);
 }
