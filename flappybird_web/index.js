@@ -212,6 +212,9 @@ class Director {
 
     /** 水管对组成的数组 */
     static pipes = [];
+
+    /**gameover */
+    static gameover = null;
 };
 
 /******************************************* ↓ 场景 ↓ *************************************************/
@@ -315,6 +318,11 @@ class GameScene extends Scene {
         }
         if (f) { // 撞上则停止
             instance.stop_run();
+            instance.stop_render();
+            Director.scene = new EndScene();
+            Director.scene.start_render(Director.MSPF);
+            Director.scene.start_run(Director.MSPF);
+            return;
         }
 
         Director.background.run();
@@ -342,6 +350,19 @@ class GameScene extends Scene {
         }
     }
 }
+
+/**
+ * 游戏结束场景
+ */
+class EndScene extends Scene {
+    constructor() {
+        super([Director.background, Director.pipes, Director.base, Director.bird, Director.gameover]);
+    }
+
+    run(instance) {
+        Director.gameover.run();
+    }
+};
 
 /******************************************* ↑ 场景 ↑ *************************************************/
 
@@ -489,6 +510,7 @@ class Bird extends Sprite {
         this.ani_idx = 0;
         this.img = this.ani[this.ani_idx];
         this.ani_cnt = 0;
+        this.click = false;
 
         this.moveTo(canvas.width / 6, canvas.height / 4);
     }
@@ -539,6 +561,23 @@ class Pipe extends Sprite {
     }
 };
 
+/**
+ * gameover
+ */
+class Gameover extends Sprite {
+    constructor() {
+        super(Res_img.gameover);
+        this.x = canvas.width / 2 - this.width / 2;
+        this.y = 0 - this.height;
+    }
+
+    run() {
+        if (this.y + this.height < canvas.height / 2) {
+            this.y += Director.speed;
+        }
+    }
+};
+
 /******************************************* ↑ 精灵 ↑ *************************************************/
 
 /**
@@ -574,6 +613,7 @@ function main() {
     Director.base = new Base();
     Director.bird = new Bird();
     Director.pipes.push(get_pipes());
+    Director.gameover = new Gameover();
 
     Director.scene = new GameScene();
     Director.scene.start_render(Director.MSPF);
