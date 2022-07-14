@@ -289,11 +289,8 @@ class Scene {
  * 游戏场景
  */
 class GameScene extends Scene {
-    constructor(sprites) {
-        super(sprites);
-        this.pipes = this.sprites[1];
-        this.bird = this.sprites[3];
-        this.base = this.sprites[2];
+    constructor() {
+        super([Director.background, Director.pipes, Director.base, Director.bird]);
     }
 
     /**
@@ -304,13 +301,13 @@ class GameScene extends Scene {
 
         // 判定小鸟是否撞上障碍物
         let f = false;
-        if (instance.bird.y <= 0 ||
-            instance.bird.y + instance.bird.height > instance.base.y) {
+        if (Director.bird.y <= 0 ||
+            Director.bird.y + Director.bird.height > Director.base.y) {
             f = true;
         }
         else {
-            for (let o of instance.pipes) {
-                if (instance.bird.collide(o[0]) || instance.bird.collide(o[1])) {
+            for (let o of Director.pipes) {
+                if (Director.bird.collide(o[0]) || Director.bird.collide(o[1])) {
                     f = true;
                     break;
                 }
@@ -331,14 +328,14 @@ class GameScene extends Scene {
         Director.bird.click_react();
 
         /**水管过去后出现新的水管 */
-        for (let i = 0; i < instance.pipes.length;) {
-            let eup = instance.pipes[i][0], edown = instance.pipes[i][1];
+        for (let i = 0; i < Director.pipes.length;) {
+            let eup = Director.pipes[i][0], edown = Director.pipes[i][1];
             if (eup.x + eup.width <= 0) {
-                instance.pipes.splice(i, 1);
+                Director.pipes.splice(i, 1);
             } else {
-                if (eup.x + eup.width <= instance.bird.x && !eup.isleftbird) {
+                if (eup.x + eup.width <= Director.bird.x && !eup.isleftbird) {
                     eup.isleftbird = edown.isleftbird = true;
-                    instance.pipes.push(get_pipes());
+                    Director.pipes.push(get_pipes());
                 }
                 i++;
             }
@@ -578,7 +575,7 @@ function main() {
     Director.bird = new Bird();
     Director.pipes.push(get_pipes());
 
-    Director.scene = new GameScene([Director.background, Director.pipes, Director.base, Director.bird]);
+    Director.scene = new GameScene();
     Director.scene.start_render(Director.MSPF);
     Director.scene.start_run(Director.MSPF);
 }
