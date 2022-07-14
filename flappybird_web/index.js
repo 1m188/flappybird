@@ -322,11 +322,13 @@ class GameScene extends Scene {
 
         Director.background.run();
         Director.base.run();
-        for(let o of instance.pipes){
+        for (let o of Director.pipes) {
             o[0].run();
             o[1].run();
         }
-        Director.bird.run();
+        Director.bird.auto_down();
+        Director.bird.ani_change();
+        Director.bird.click_react();
 
         /**水管过去后出现新的水管 */
         for (let i = 0; i < instance.pipes.length;) {
@@ -494,19 +496,29 @@ class Bird extends Sprite {
         this.moveTo(canvas.width / 6, canvas.height / 4);
     }
 
-    run() {
-        // 小鸟自动掉下去
+    /**
+     * 小鸟自动掉下去
+     */
+    auto_down() {
         this.move(0, this.dy);
         this.dy += this.acc;
+    }
 
-        // 每隔一定时间图片变换，达到动画放映的效果
+    /**
+     * 每隔一定时间图片变换，达到动画放映的效果
+     */
+    ani_change() {
         if (++this.ani_cnt >= this.ani_num) {
             this.ani_idx = (this.ani_idx + 1) % this.ani.length;
             this.img = this.ani[this.ani_idx];
             this.ani_cnt = 0;
         }
+    }
 
-        // 按键事件
+    /**
+     * 按键事件
+     */
+    click_react() {
         if (this.click) {
             this.click = false;
             this.move(0, -8);
