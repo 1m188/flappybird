@@ -215,6 +215,9 @@ class Director {
 
     /**gameover */
     static gameover = null;
+
+    /**message */
+    static message = null;
 };
 
 /******************************************* ↓ 场景 ↓ *************************************************/
@@ -287,6 +290,22 @@ class Scene {
      */
     run(instance) { }
 }
+
+/**
+ * 游戏开始场景
+ */
+class StartScene extends Scene {
+    constructor() {
+        super([Director.background, Director.base, Director.bird, Director.message]);
+        Director.bird.init();
+        Director.bird.x = Director.message.x + Director.message.width / 2 - Director.bird.width / 2 - 50;
+        Director.bird.y = Director.message.y + Director.message.height / 2 + 35;
+    }
+
+    run(instance) {
+        Director.bird.ani_change();
+    }
+};
 
 /**
  * 游戏场景
@@ -511,8 +530,6 @@ class Bird extends Sprite {
         this.img = this.ani[this.ani_idx];
         this.ani_cnt = 0;
         this.click = false;
-
-        this.moveTo(canvas.width / 6, canvas.height / 4);
     }
 
     /**
@@ -578,6 +595,17 @@ class Gameover extends Sprite {
     }
 };
 
+/**
+ * message
+ */
+class Message extends Sprite {
+    constructor() {
+        super(Res_img.message);
+        this.x = canvas.width / 2 - this.width / 2;
+        this.y = canvas.height / 2 - this.height;
+    }
+};
+
 /******************************************* ↑ 精灵 ↑ *************************************************/
 
 /**
@@ -614,8 +642,9 @@ function main() {
     Director.bird = new Bird();
     Director.pipes.push(get_pipes());
     Director.gameover = new Gameover();
+    Director.message = new Message();
 
-    Director.scene = new GameScene();
+    Director.scene = new StartScene();
     Director.scene.start_render(Director.MSPF);
     Director.scene.start_run(Director.MSPF);
 }
