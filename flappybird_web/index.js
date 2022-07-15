@@ -589,7 +589,7 @@ class Gameover extends Sprite {
     }
 
     run() {
-        if (this.y + this.height < canvas.height / 2) {
+        if (this.y + this.height < (canvas.height - Director.base.height) / 2) {
             this.y += Director.speed;
         }
     }
