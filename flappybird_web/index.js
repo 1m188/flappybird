@@ -7,7 +7,7 @@ canvas.height = window.innerHeight;
 /**
  * 图片资源
  */
-class Res_img {
+class Res {
 
     /**
      * 资源加载数目
@@ -109,82 +109,99 @@ class Res_img {
      */
     static yellowbird_upflap = new Image();
 
+    /**死亡音乐 */
+    static die = new Audio();
+
+    /**碰壁音乐 */
+    static hit = new Audio();
+
+    /**得分音乐 */
+    static point = new Audio();
+
+    /**扇翅膀音乐 */
+    static wing = new Audio();
+
     /**
-     * 加载所有图片资源
+     * 加载所有资源
      */
     static load(afterload) {
-        if (Res_img.numbers.length != 0) return; // 已经加载完了就不必再加载了
+        if (Res.numbers.length != 0) return; // 已经加载完了就不必再加载了
 
         for (let i = 0; i <= 9; i++) {
             let img = new Image();
             img.src = "./asset/image/" + String(i) + ".png";
-            img.onload = function () { Res_img.num++; }
-            Res_img.numbers.push(img);
+            img.onload = function () { Res.num++; };
+            Res.numbers.push(img);
         }
 
-        Res_img.background_day.src = "./asset/image/background_day.png"
-        Res_img.background_day.onload = function () { Res_img.num++ };
+        Res.background_day.src = "./asset/image/background_day.png";
+        Res.background_day.onload = function () { Res.num++; };
 
-        Res_img.background_night.src = "./asset/image/background_night.png"
-        Res_img.background_night.onload = function () { Res_img.num++ };
+        Res.background_night.src = "./asset/image/background_night.png";
+        Res.background_night.onload = function () { Res.num++; };
 
-        Res_img.base.src = "./asset/image/base.png"
-        Res_img.base.onload = function () { Res_img.num++ };
+        Res.base.src = "./asset/image/base.png";
+        Res.base.onload = function () { Res.num++; };
 
-        Res_img.gameover.src = "./asset/image/gameover.png"
-        Res_img.gameover.onload = function () { Res_img.num++ };
+        Res.gameover.src = "./asset/image/gameover.png";
+        Res.gameover.onload = function () { Res.num++; };
 
-        Res_img.message.src = "./asset/image/message.png"
-        Res_img.message.onload = function () { Res_img.num++ };
+        Res.message.src = "./asset/image/message.png";
+        Res.message.onload = function () { Res.num++; };
 
-        Res_img.pipe_green_up.src = "./asset/image/pipe_green_up.png"
-        Res_img.pipe_green_up.onload = function () { Res_img.num++ };
+        Res.pipe_green_up.src = "./asset/image/pipe_green_up.png";
+        Res.pipe_green_up.onload = function () { Res.num++; };
 
-        Res_img.pipe_green_down.src = "./asset/image/pipe_green_down.png"
-        Res_img.pipe_green_down.onload = function () { Res_img.num++ };
+        Res.pipe_green_down.src = "./asset/image/pipe_green_down.png";
+        Res.pipe_green_down.onload = function () { Res.num++; };
 
-        Res_img.pipe_red_up.src = "./asset/image/pipe_red_up.png"
-        Res_img.pipe_red_up.onload = function () { Res_img.num++ };
+        Res.pipe_red_up.src = "./asset/image/pipe_red_up.png";
+        Res.pipe_red_up.onload = function () { Res.num++; };
 
-        Res_img.pipe_red_down.src = "./asset/image/pipe_red_down.png"
-        Res_img.pipe_red_down.onload = function () { Res_img.num++ };
+        Res.pipe_red_down.src = "./asset/image/pipe_red_down.png";
+        Res.pipe_red_down.onload = function () { Res.num++; };
 
-        Res_img.bluebird_downflap.src = "./asset/image/bluebird_downflap.png"
-        Res_img.bluebird_downflap.onload = function () { Res_img.num++ };
+        Res.bluebird_downflap.src = "./asset/image/bluebird_downflap.png";
+        Res.bluebird_downflap.onload = function () { Res.num++; };
 
-        Res_img.bluebird_midflap.src = "./asset/image/bluebird_midflap.png"
-        Res_img.bluebird_midflap.onload = function () { Res_img.num++ };
+        Res.bluebird_midflap.src = "./asset/image/bluebird_midflap.png";
+        Res.bluebird_midflap.onload = function () { Res.num++; };
 
-        Res_img.bluebird_upflap.src = "./asset/image/bluebird_upflap.png"
-        Res_img.bluebird_upflap.onload = function () { Res_img.num++ };
+        Res.bluebird_upflap.src = "./asset/image/bluebird_upflap.png";
+        Res.bluebird_upflap.onload = function () { Res.num++; };
 
-        Res_img.redbird_downflap.src = "./asset/image/redbird_downflap.png"
-        Res_img.redbird_downflap.onload = function () { Res_img.num++ };
+        Res.redbird_downflap.src = "./asset/image/redbird_downflap.png";
+        Res.redbird_downflap.onload = function () { Res.num++; };
 
-        Res_img.redbird_midflap.src = "./asset/image/redbird_midflap.png"
-        Res_img.redbird_midflap.onload = function () { Res_img.num++ };
+        Res.redbird_midflap.src = "./asset/image/redbird_midflap.png";
+        Res.redbird_midflap.onload = function () { Res.num++; };
 
-        Res_img.redbird_upflap.src = "./asset/image/redbird_upflap.png"
-        Res_img.redbird_upflap.onload = function () { Res_img.num++ };
+        Res.redbird_upflap.src = "./asset/image/redbird_upflap.png";
+        Res.redbird_upflap.onload = function () { Res.num++; };
 
-        Res_img.yellowbird_downflap.src = "./asset/image/yellowbird_downflap.png"
-        Res_img.yellowbird_downflap.onload = function () { Res_img.num++ };
+        Res.yellowbird_downflap.src = "./asset/image/yellowbird_downflap.png";
+        Res.yellowbird_downflap.onload = function () { Res.num++; };
 
-        Res_img.yellowbird_midflap.src = "./asset/image/yellowbird_midflap.png"
-        Res_img.yellowbird_midflap.onload = function () { Res_img.num++ };
+        Res.yellowbird_midflap.src = "./asset/image/yellowbird_midflap.png";
+        Res.yellowbird_midflap.onload = function () { Res.num++; };
 
-        Res_img.yellowbird_upflap.src = "./asset/image/yellowbird_upflap.png"
-        Res_img.yellowbird_upflap.onload = function () { Res_img.num++ };
+        Res.yellowbird_upflap.src = "./asset/image/yellowbird_upflap.png";
+        Res.yellowbird_upflap.onload = function () { Res.num++; };
+
+        Res.die.src = "./asset/audio/die.ogg";
+        Res.hit.src = "./asset/audio/hit.ogg";
+        Res.point.src = "./asset/audio/point.ogg";
+        Res.wing.src = "./asset/audio/wing.ogg";
 
         let timer = setInterval(function () {
-            if (!Res_img.is_ready()) return;
+            if (!Res.is_ready()) return;
             clearInterval(timer);
             afterload();
         }, 10);
     }
 
     static is_ready() {
-        return Res_img.num == 28;
+        return Res.num == 28;
     }
 };
 
@@ -366,6 +383,7 @@ class GameScene extends Scene {
             }
         }
         if (f) { // 撞上则停止
+            Res.hit.play();
             instance.stop_run();
             instance.stop_render();
             Director.scene = new EndScene();
@@ -395,6 +413,7 @@ class GameScene extends Scene {
                     Director.pipes.push(get_pipes());
                     // 分数+1
                     Director.grade.score++;
+                    Res.point.play();
                 }
                 i++;
             }
@@ -415,6 +434,9 @@ class EndScene extends Scene {
 
         /**动画是否演完 */
         this.is_ani_finished = false;
+
+        /**是否已经播放声音 */
+        this.is_voice_played = false;
     }
 
     run(instance) {
@@ -432,6 +454,11 @@ class EndScene extends Scene {
                 Director.scene.start_render(Director.MSPF);
                 Director.scene.start_run(Director.MSPF);
             }
+        }
+
+        if (!instance.is_voice_played) {
+            instance.is_voice_played = true;
+            Res.die.play();
         }
     }
 };
@@ -486,8 +513,8 @@ class Background extends Sprite {
 
         // 随机背景
         let x = Math.random();
-        if (x < 0.5) super(Res_img.background_day);
-        else super(Res_img.background_night);
+        if (x < 0.5) super(Res.background_day);
+        else super(Res.background_night);
 
         this.width = canvas.height / this.height * this.width;
         this.height = canvas.height;
@@ -516,7 +543,7 @@ class Background extends Sprite {
  */
 class Base extends Sprite {
     constructor() {
-        super(Res_img.base);
+        super(Res.base);
         this.x = 0;
         this.y = canvas.height - this.height;
     }
@@ -547,28 +574,28 @@ class Bird extends Sprite {
 
         // 随机颜色小鸟
         let x = Math.random() * 3;
-        if (x < 1) super(Res_img.redbird_upflap);
-        else if (x < 2) super(Res_img.bluebird_upflap);
-        else super(Res_img.yellowbird_upflap);
+        if (x < 1) super(Res.redbird_upflap);
+        else if (x < 2) super(Res.bluebird_upflap);
+        else super(Res.yellowbird_upflap);
 
 
         // 动画
         this.ani = new Array();
         if (x < 1) {
-            this.ani.push(Res_img.redbird_upflap);
-            this.ani.push(Res_img.redbird_midflap);
-            this.ani.push(Res_img.redbird_downflap);
-            this.ani.push(Res_img.redbird_midflap);
+            this.ani.push(Res.redbird_upflap);
+            this.ani.push(Res.redbird_midflap);
+            this.ani.push(Res.redbird_downflap);
+            this.ani.push(Res.redbird_midflap);
         } else if (x < 2) {
-            this.ani.push(Res_img.bluebird_upflap);
-            this.ani.push(Res_img.bluebird_midflap);
-            this.ani.push(Res_img.bluebird_downflap);
-            this.ani.push(Res_img.bluebird_midflap);
+            this.ani.push(Res.bluebird_upflap);
+            this.ani.push(Res.bluebird_midflap);
+            this.ani.push(Res.bluebird_downflap);
+            this.ani.push(Res.bluebird_midflap);
         } else {
-            this.ani.push(Res_img.yellowbird_upflap);
-            this.ani.push(Res_img.yellowbird_midflap);
-            this.ani.push(Res_img.yellowbird_downflap);
-            this.ani.push(Res_img.yellowbird_midflap);
+            this.ani.push(Res.yellowbird_upflap);
+            this.ani.push(Res.yellowbird_midflap);
+            this.ani.push(Res.yellowbird_downflap);
+            this.ani.push(Res.yellowbird_midflap);
         }
 
         this.ani_idx = 0; // 当前动画显示图片索引
@@ -624,6 +651,7 @@ class Bird extends Sprite {
             this.click = false;
             this.y -= 8;
             this.dy = -8;
+            Res.wing.play();
         }
     }
 };
@@ -648,7 +676,7 @@ class Pipe extends Sprite {
  */
 class Gameover extends Sprite {
     constructor() {
-        super(Res_img.gameover);
+        super(Res.gameover);
     }
 };
 
@@ -657,7 +685,7 @@ class Gameover extends Sprite {
  */
 class Message extends Sprite {
     constructor() {
-        super(Res_img.message);
+        super(Res.message);
     }
 };
 
@@ -666,7 +694,7 @@ class Message extends Sprite {
  */
 class Grade extends Sprite {
     constructor() {
-        super(Res_img.numbers[0]);
+        super(Res.numbers[0]);
         this.num = [0];
         this.sw = this.img.width;
         this.sh = this.img.height;
@@ -676,7 +704,7 @@ class Grade extends Sprite {
 
     render() {
         for (let i = 0; i < this.num.length; i++) {
-            ctx.drawImage(Res_img.numbers[this.num[i]], this.x + i * this.sw, this.y, this.sw, this.sh);
+            ctx.drawImage(Res.numbers[this.num[i]], this.x + i * this.sw, this.y, this.sw, this.sh);
         }
     }
 
@@ -715,18 +743,17 @@ function get_pipes() {
     let x = Math.random();
     let up = null, down = null; // 上下两对水管
 
-    if (x < 0.5) up = new Pipe(Res_img.pipe_green_up), down = new Pipe(Res_img.pipe_green_down);
-    else up = new Pipe(Res_img.pipe_red_up), down = new Pipe(Res_img.pipe_red_down);
-
+    if (x < 0.5) up = new Pipe(Res.pipe_green_up), down = new Pipe(Res.pipe_green_down);
+    else up = new Pipe(Res.pipe_red_up), down = new Pipe(Res.pipe_red_down);
 
     up.x = down.x = canvas.width;
 
     /**两水管之间的高度距离 */
-    let dist = Math.max(canvas.height - Res_img.base.height - up.height - down.height, Res_img.bluebird_downflap.height + 200);
+    let dist = Math.max(canvas.height - Res.base.height - up.height - down.height, Res.bluebird_downflap.height + 200);
     /**水管最低边界 */
-    let minbottom = Math.max(5, canvas.height - Res_img.base.height - up.height - dist);
+    let minbottom = Math.max(5, canvas.height - Res.base.height - up.height - dist);
     /**水管最高边界 */
-    let maxbottom = Math.min(down.height, canvas.height - Res_img.base.height - 5 - dist);
+    let maxbottom = Math.min(down.height, canvas.height - Res.base.height - 5 - dist);
 
     /**区间随机数函数 */
     let get_random = (min, max) => { return Math.floor(Math.random() * (max + 1 - min) + min); };
@@ -738,7 +765,7 @@ function get_pipes() {
     return [up, down];
 }
 
-Res_img.load(main);
+Res.load(main);
 
 function main() {
 
