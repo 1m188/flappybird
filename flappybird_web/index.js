@@ -300,10 +300,22 @@ class StartScene extends Scene {
         Director.bird.init();
         Director.bird.x = Director.message.x + Director.message.width / 2 - Director.bird.width / 2 - 50;
         Director.bird.y = Director.message.y + Director.message.height / 2 + 35;
+
+        // 点击鼠标进入游戏场景
+        let that = this;
+        document.onclick = function () {
+            that.stop_render();
+            that.stop_run();
+            Director.scene = new GameScene();
+            Director.scene.start_render(Director.MSPF);
+            Director.scene.start_run(Director.MSPF);
+        }
     }
 
     run(instance) {
         Director.bird.ani_change();
+        Director.background.run();
+        Director.base.run();
     }
 };
 
@@ -313,6 +325,7 @@ class StartScene extends Scene {
 class GameScene extends Scene {
     constructor() {
         super([Director.background, Director.pipes, Director.base, Director.bird]);
+        Director.bird.init();
     }
 
     /**
@@ -393,8 +406,7 @@ class EndScene extends Scene {
 class Sprite {
     constructor(img) {
         this.img = img;
-        this.x = 0;
-        this.y = 0;
+        this.x = this.y = 0;
         this.width = img.width;
         this.height = img.height;
     }
@@ -410,16 +422,6 @@ class Sprite {
      * 每帧逻辑操作
      */
     run() { }
-
-    move(dx, dy) {
-        this.x += dx;
-        this.y += dy;
-    }
-
-    moveTo(x, y) {
-        this.x = x;
-        this.y = y;
-    }
 
     /**
      * 碰撞检测
@@ -456,10 +458,10 @@ class Background extends Sprite {
     }
 
     run() {
-        this.move(-Director.speed, 0);
+        this.x -= Director.speed;
 
         if (this.x + this.width <= 0) {
-            this.moveTo(0, 0);
+            this.x = this.y = 0;
         }
     }
 };
@@ -470,7 +472,8 @@ class Background extends Sprite {
 class Base extends Sprite {
     constructor() {
         super(Res_img.base);
-        this.moveTo(0, canvas.height - this.height);
+        this.x = 0;
+        this.y = canvas.height - this.height;
     }
 
     render() {
@@ -483,10 +486,10 @@ class Base extends Sprite {
     }
 
     run() {
-        this.move(-Director.speed, 0);
+        this.x -= Director.speed;
 
         if (this.x + this.width <= 0) {
-            this.moveTo(0, this.y);
+            this.x = 0;
         }
     }
 };
@@ -511,15 +514,6 @@ class Bird extends Sprite {
 
         this.dy = 0.5; // 速度
         this.acc = 0.9; // 加速度
-
-        // 按键监听
-        this.click = false;
-        let that = this;
-        document.onclick = function () {
-            that.click = true;
-        }
-
-        this.init();
     }
 
     /**
@@ -529,14 +523,20 @@ class Bird extends Sprite {
         this.ani_idx = 0;
         this.img = this.ani[this.ani_idx];
         this.ani_cnt = 0;
+
+        // 按键监听
         this.click = false;
+        let that = this;
+        document.onclick = function () {
+            that.click = true;
+        }
     }
 
     /**
      * 小鸟自动掉下去
      */
     auto_down() {
-        this.move(0, this.dy);
+        this.y += this.dy;
         this.dy += this.acc;
     }
 
@@ -557,7 +557,7 @@ class Bird extends Sprite {
     click_react() {
         if (this.click) {
             this.click = false;
-            this.move(0, -8);
+            this.y -= 8;
             this.dy = -8;
         }
     }
