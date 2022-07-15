@@ -326,6 +326,8 @@ class GameScene extends Scene {
     constructor() {
         super([Director.background, Director.pipes, Director.base, Director.bird]);
         Director.bird.init();
+        Director.pipes.length = 0;
+        Director.pipes.push(get_pipes());
     }
 
     /**
@@ -389,10 +391,28 @@ class GameScene extends Scene {
 class EndScene extends Scene {
     constructor() {
         super([Director.background, Director.pipes, Director.base, Director.bird, Director.gameover]);
+
+        Director.gameover.x = canvas.width / 2 - Director.gameover.width / 2;
+        Director.gameover.y = 0 - Director.gameover.height;
+
+        /**动画是否演完 */
+        this.is_ani_finished = false;
     }
 
     run(instance) {
-        Director.gameover.run();
+        if (Director.gameover.y + Director.gameover.height < (canvas.height - Director.base.height) / 2) {
+            Director.gameover.y += Director.speed;
+        } else if (!instance.is_ani_finished) {
+            instance.is_ani_finished = true; // 演完动画，设置点击事件，且只此一次
+
+            document.onclick = function () {
+                instance.stop_render();
+                instance.stop_run();
+                Director.scene = new StartScene();
+                Director.scene.start_render(Director.MSPF);
+                Director.scene.start_run(Director.MSPF);
+            }
+        }
     }
 };
 
@@ -530,6 +550,8 @@ class Bird extends Sprite {
         document.onclick = function () {
             that.click = true;
         }
+
+        this.dy = 0.5; // 速度
     }
 
     /**
@@ -584,14 +606,6 @@ class Pipe extends Sprite {
 class Gameover extends Sprite {
     constructor() {
         super(Res_img.gameover);
-        this.x = canvas.width / 2 - this.width / 2;
-        this.y = 0 - this.height;
-    }
-
-    run() {
-        if (this.y + this.height < (canvas.height - Director.base.height) / 2) {
-            this.y += Director.speed;
-        }
     }
 };
 
@@ -640,7 +654,6 @@ function main() {
     Director.background = new Background();
     Director.base = new Base();
     Director.bird = new Bird();
-    Director.pipes.push(get_pipes());
     Director.gameover = new Gameover();
     Director.message = new Message();
 
