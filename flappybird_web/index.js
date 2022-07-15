@@ -298,10 +298,11 @@ class StartScene extends Scene {
     constructor() {
         super([Director.background, Director.base, Director.bird, Director.message]);
 
+        // 消息位置
         Director.message.x = canvas.width / 2 - Director.message.width / 2;
         Director.message.y = canvas.height / 2 - Director.message.height;
 
-        Director.bird.init();
+        // 小鸟位置
         Director.bird.x = Director.message.x + Director.message.width / 2 - Director.bird.width / 2 - 50;
         Director.bird.y = Director.message.y + Director.message.height / 2 + 35;
 
@@ -329,7 +330,11 @@ class StartScene extends Scene {
 class GameScene extends Scene {
     constructor() {
         super([Director.background, Director.pipes, Director.base, Director.bird]);
+
+        // 重新设定小鸟的各方面参数
         Director.bird.init();
+
+        // 水管内容的重新设定
         Director.pipes.length = 0;
         Director.pipes.push(get_pipes());
     }
@@ -396,6 +401,7 @@ class EndScene extends Scene {
     constructor() {
         super([Director.background, Director.pipes, Director.base, Director.bird, Director.gameover]);
 
+        // gameover位置
         Director.gameover.x = canvas.width / 2 - Director.gameover.width / 2;
         Director.gameover.y = 0 - Director.gameover.height;
 
@@ -404,11 +410,13 @@ class EndScene extends Scene {
     }
 
     run(instance) {
+        // gameover动画
         if (Director.gameover.y + Director.gameover.height < (canvas.height - Director.base.height) / 2) {
             Director.gameover.y += Director.speed;
         } else if (!instance.is_ani_finished) {
             instance.is_ani_finished = true; // 演完动画，设置点击事件，且只此一次
 
+            // 单击鼠标切换场景
             document.onclick = function () {
                 instance.stop_render();
                 instance.stop_run();
