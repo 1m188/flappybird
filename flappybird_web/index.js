@@ -297,6 +297,10 @@ class Scene {
 class StartScene extends Scene {
     constructor() {
         super([Director.background, Director.base, Director.bird, Director.message]);
+
+        Director.message.x = canvas.width / 2 - Director.message.width / 2;
+        Director.message.y = canvas.height / 2 - Director.message.height;
+
         Director.bird.init();
         Director.bird.x = Director.message.x + Director.message.width / 2 - Director.bird.width / 2 - 50;
         Director.bird.y = Director.message.y + Director.message.height / 2 + 35;
@@ -615,8 +619,6 @@ class Gameover extends Sprite {
 class Message extends Sprite {
     constructor() {
         super(Res_img.message);
-        this.x = canvas.width / 2 - this.width / 2;
-        this.y = canvas.height / 2 - this.height;
     }
 };
 
