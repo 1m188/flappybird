@@ -765,8 +765,10 @@ function get_pipes() {
     return [up, down];
 }
 
+// 资源全部加载之后运行主函数
 Res.load(main);
 
+/**主函数 */
 function main() {
 
     Director.background = new Background();
