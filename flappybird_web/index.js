@@ -483,7 +483,12 @@ class Sprite {
  */
 class Background extends Sprite {
     constructor() {
-        super(Res_img.background_day);
+
+        // 随机背景
+        let x = Math.random();
+        if (x < 0.5) super(Res_img.background_day);
+        else super(Res_img.background_night);
+
         this.width = canvas.height / this.height * this.width;
         this.height = canvas.height;
     }
@@ -539,14 +544,32 @@ class Base extends Sprite {
  */
 class Bird extends Sprite {
     constructor() {
-        super(Res_img.redbird_upflap);
+
+        // 随机颜色小鸟
+        let x = Math.random() * 3;
+        if (x < 1) super(Res_img.redbird_upflap);
+        else if (x < 2) super(Res_img.bluebird_upflap);
+        else super(Res_img.yellowbird_upflap);
+
 
         // 动画
         this.ani = new Array();
-        this.ani.push(Res_img.redbird_upflap);
-        this.ani.push(Res_img.redbird_midflap);
-        this.ani.push(Res_img.redbird_downflap);
-        this.ani.push(Res_img.redbird_midflap);
+        if (x < 1) {
+            this.ani.push(Res_img.redbird_upflap);
+            this.ani.push(Res_img.redbird_midflap);
+            this.ani.push(Res_img.redbird_downflap);
+            this.ani.push(Res_img.redbird_midflap);
+        } else if (x < 2) {
+            this.ani.push(Res_img.bluebird_upflap);
+            this.ani.push(Res_img.bluebird_midflap);
+            this.ani.push(Res_img.bluebird_downflap);
+            this.ani.push(Res_img.bluebird_midflap);
+        } else {
+            this.ani.push(Res_img.yellowbird_upflap);
+            this.ani.push(Res_img.yellowbird_midflap);
+            this.ani.push(Res_img.yellowbird_downflap);
+            this.ani.push(Res_img.yellowbird_midflap);
+        }
 
         this.ani_idx = 0; // 当前动画显示图片索引
         this.ani_cnt = 0; // 帧数计数
@@ -687,7 +710,15 @@ class Grade extends Sprite {
  * @returns 上、下 水管
  */
 function get_pipes() {
-    let up = new Pipe(Res_img.pipe_green_up), down = new Pipe(Res_img.pipe_green_down);
+
+    // 随机颜色水管
+    let x = Math.random();
+    let up = null, down = null; // 上下两对水管
+
+    if (x < 0.5) up = new Pipe(Res_img.pipe_green_up), down = new Pipe(Res_img.pipe_green_down);
+    else up = new Pipe(Res_img.pipe_red_up), down = new Pipe(Res_img.pipe_red_down);
+
+
     up.x = down.x = canvas.width;
 
     /**两水管之间的高度距离 */
