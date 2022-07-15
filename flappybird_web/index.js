@@ -218,6 +218,9 @@ class Director {
 
     /**message */
     static message = null;
+
+    /**分数 */
+    static grade = null;
 };
 
 /******************************************* ↓ 场景 ↓ *************************************************/
@@ -329,7 +332,7 @@ class StartScene extends Scene {
  */
 class GameScene extends Scene {
     constructor() {
-        super([Director.background, Director.pipes, Director.base, Director.bird]);
+        super([Director.background, Director.pipes, Director.base, Director.bird, Director.grade]);
 
         // 重新设定小鸟的各方面参数
         Director.bird.init();
@@ -337,6 +340,9 @@ class GameScene extends Scene {
         // 水管内容的重新设定
         Director.pipes.length = 0;
         Director.pipes.push(get_pipes());
+
+        // 分数清零
+        Director.grade.score = 0;
     }
 
     /**
@@ -387,6 +393,8 @@ class GameScene extends Scene {
                 if (eup.x + eup.width <= Director.bird.x && !eup.isleftbird) {
                     eup.isleftbird = edown.isleftbird = true;
                     Director.pipes.push(get_pipes());
+                    // 分数+1
+                    Director.grade.score++;
                 }
                 i++;
             }
@@ -399,7 +407,7 @@ class GameScene extends Scene {
  */
 class EndScene extends Scene {
     constructor() {
-        super([Director.background, Director.pipes, Director.base, Director.bird, Director.gameover]);
+        super([Director.background, Director.pipes, Director.base, Director.bird, Director.gameover, Director.grade]);
 
         // gameover位置
         Director.gameover.x = canvas.width / 2 - Director.gameover.width / 2;
@@ -630,6 +638,48 @@ class Message extends Sprite {
     }
 };
 
+/**
+ * 分数
+ */
+class Grade extends Sprite {
+    constructor() {
+        super(Res_img.numbers[0]);
+        this.num = [0];
+        this.sw = this.img.width;
+        this.sh = this.img.height;
+        this.x += this.sw;
+        this.y += this.sw;
+    }
+
+    render() {
+        for (let i = 0; i < this.num.length; i++) {
+            ctx.drawImage(Res_img.numbers[this.num[i]], this.x + i * this.sw, this.y, this.sw, this.sh);
+        }
+    }
+
+    /**
+     * @param {number} val
+     */
+    set score(val) {
+        this.num.length = 0;
+        if (val == 0) this.num.push(0);
+        else {
+            while (val) {
+                this.num.unshift(val % 10);
+                val = Math.floor(val / 10);
+            }
+        }
+    }
+
+    get score() {
+        let res = 0;
+        for (let i = 0; i < this.num.length; i++) {
+            res = res * 10 + this.num[i];
+        }
+        return res;
+    }
+};
+
 /******************************************* ↑ 精灵 ↑ *************************************************/
 
 /**
@@ -666,6 +716,7 @@ function main() {
     Director.bird = new Bird();
     Director.gameover = new Gameover();
     Director.message = new Message();
+    Director.grade = new Grade();
 
     Director.scene = new StartScene();
     Director.scene.start_render(Director.MSPF);
