@@ -6,3 +6,7 @@ env
 
 # py生成
 *.pyc
+
+# pyinstaller
+build/
+dist/
