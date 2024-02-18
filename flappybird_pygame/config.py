@@ -1,11 +1,12 @@
 import pygame
+from pathlib import Path
 
 # 这里记录一些资源的路径及获取方法
 
 # 图片资源路径
 imgPath = {}
 
-imgPathPrefix = "../asset/image"
+imgPathPrefix = str(Path(__file__).resolve().parent / 'asset' / 'image')
 
 # 图标
 imgPath["icon"] = f"{imgPathPrefix}/bird_icon.png"
@@ -72,7 +73,7 @@ class ImgRes:
 
 # 音乐资源路径
 audPath = {}
-audPathPrefix = "../asset/audio"
+audPathPrefix = str(Path(__file__).resolve().parent / 'asset' / 'audio')
 audPath["die"] = f"{audPathPrefix}/die.ogg"  # 死亡
 audPath["hit"] = f"{audPathPrefix}/hit.ogg"  # 撞到某些东西
 audPath["point"] = f"{audPathPrefix}/point.ogg"  # 得分
