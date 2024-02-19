@@ -1,8 +1,6 @@
 from pathlib import Path
-
 from PySide2.QtGui import QPixmap
-from PySide2.QtMultimedia import QMediaPlayer
-from PySide2.QtCore import QUrl
+import pygame
 
 # 这里记录一些资源的路径及获取方法
 
@@ -88,10 +86,8 @@ class AudRes:
 
     # 资源获取
     @staticmethod
-    def getRes(resPath: str) -> QMediaPlayer:
-        mp = QMediaPlayer()
-        mp.setMedia(QUrl.fromLocalFile(resPath))
-        return mp
+    def getRes(resPath: str) -> pygame.mixer.Sound:
+        return pygame.mixer.Sound(resPath)
 
     # 加载所有资源
     @classmethod

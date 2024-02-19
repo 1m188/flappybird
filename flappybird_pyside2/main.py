@@ -1,11 +1,13 @@
 import sys
 from PySide2.QtWidgets import QApplication
+from PySide2.QtCore import QCoreApplication, Qt
+import pygame
+
 from window import Window
 import config
 
-from PySide2.QtCore import QCoreApplication, Qt
-
 QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)  # 添加高分屏支持
+pygame.init()  # 初始化pygame
 
 app = QApplication(sys.argv)
 
