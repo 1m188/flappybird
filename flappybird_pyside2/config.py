@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from PySide2.QtGui import QPixmap
 from PySide2.QtMultimedia import QMediaPlayer
@@ -9,37 +9,33 @@ from PySide2.QtCore import QUrl
 # 图片资源路径
 imgPath = {}
 
-imgPathPrefix = os.path.join(os.path.dirname(__file__), "../asset/image")
+imgPathPrefix = str(Path(__file__).resolve().parent / 'asset' / 'image')
 
 # 图标
-imgPath["icon"] = os.path.join(imgPathPrefix, 'bird_icon.png')
+imgPath["icon"] = str(Path(imgPathPrefix) / 'bird_icon.png')
 
 # 某些游戏信息图片路径
-imgPath["message"] = os.path.join(imgPathPrefix, 'message.png')
-imgPath["gameover"] = os.path.join(imgPathPrefix, 'gameover.png')
+imgPath["message"] = str(Path(imgPathPrefix) / 'message.png')
+imgPath["gameover"] = str(Path(imgPathPrefix) / 'gameover.png')
 
 # 背景及下边界
 for i in ("day", "night"):
-    imgPath[f"background-{i}"] = os.path.join(imgPathPrefix,
-                                              f'background-{i}.png')
-imgPath["base"] = os.path.join(imgPathPrefix, 'base.png')
+    imgPath[f"background-{i}"] = str(Path(imgPathPrefix) / f'background-{i}.png')
+imgPath["base"] = str(Path(imgPathPrefix) / 'base.png')
 
 # 几种颜色的鸟以及其各种形态
 for i in ("red", "blue", "yellow"):
-    imgPath[f"{i}bird-downflap"] = os.path.join(imgPathPrefix,
-                                                f'{i}bird-downflap.png')
-    imgPath[f"{i}bird-midflap"] = os.path.join(imgPathPrefix,
-                                               f'{i}bird-midflap.png')
-    imgPath[f"{i}bird-upflap"] = os.path.join(imgPathPrefix,
-                                              f'{i}bird-upflap.png')
+    imgPath[f"{i}bird-downflap"] = str(Path(imgPathPrefix) / f'{i}bird-downflap.png')
+    imgPath[f"{i}bird-midflap"] = str(Path(imgPathPrefix) / f'{i}bird-midflap.png')
+    imgPath[f"{i}bird-upflap"] = str(Path(imgPathPrefix) / f'{i}bird-upflap.png')
 
 # 水管
 for i in ("green", "red"):
-    imgPath[f"pipe-{i}"] = os.path.join(imgPathPrefix, f'pipe-{i}.png')
+    imgPath[f"pipe-{i}"] = str(Path(imgPathPrefix) / f'pipe-{i}.png')
 
 # 数字
 for i in range(10):
-    imgPath[str(i)] = os.path.join(imgPathPrefix, f'{str(i)}.png')
+    imgPath[str(i)] = str(Path(imgPathPrefix) / f'{str(i)}.png')
 
 
 # 图片资源
@@ -65,15 +61,9 @@ class ImgRes:
         cls.base = cls.getRes("base")
 
         cls.bird = {}
-        cls.bird["red"] = (cls.getRes("redbird-downflap"),
-                           cls.getRes("redbird-midflap"),
-                           cls.getRes("redbird-upflap"))
-        cls.bird["blue"] = (cls.getRes("bluebird-downflap"),
-                            cls.getRes("bluebird-midflap"),
-                            cls.getRes("bluebird-upflap"))
-        cls.bird["yellow"] = (cls.getRes("yellowbird-downflap"),
-                              cls.getRes("yellowbird-midflap"),
-                              cls.getRes("yellowbird-upflap"))
+        cls.bird["red"] = (cls.getRes("redbird-downflap"), cls.getRes("redbird-midflap"), cls.getRes("redbird-upflap"))
+        cls.bird["blue"] = (cls.getRes("bluebird-downflap"), cls.getRes("bluebird-midflap"), cls.getRes("bluebird-upflap"))
+        cls.bird["yellow"] = (cls.getRes("yellowbird-downflap"), cls.getRes("yellowbird-midflap"), cls.getRes("yellowbird-upflap"))
 
         cls.pipe = {}
         cls.pipe["red"] = cls.getRes("pipe-red")
@@ -86,11 +76,11 @@ class ImgRes:
 
 # 音乐资源路径
 audPath = {}
-audPathPrefix = os.path.join(os.path.dirname(__file__), "../asset/audio")
-audPath["die"] = os.path.join(audPathPrefix, 'die.ogg')  # 死亡
-audPath["hit"] = os.path.join(audPathPrefix, 'hit.ogg')  # 撞到某些东西
-audPath["point"] = os.path.join(audPathPrefix, 'point.ogg')  # 得分
-audPath["wing"] = os.path.join(audPathPrefix, 'wing.ogg')  # 点击向上飞时
+audPathPrefix = str(Path(__file__).resolve().parent / 'asset' / 'audio')
+audPath["die"] = str(Path(audPathPrefix) / 'die.ogg')  # 死亡
+audPath["hit"] = str(Path(audPathPrefix) / 'hit.ogg')  # 撞到某些东西
+audPath["point"] = str(Path(audPathPrefix) / 'point.ogg')  # 得分
+audPath["wing"] = str(Path(audPathPrefix) / 'wing.ogg')  # 点击向上飞时
 
 
 # 音乐资源
