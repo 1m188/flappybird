@@ -326,15 +326,23 @@ class StartScene extends Scene {
         Director.bird.x = Director.message.x + Director.message.width / 2 - Director.bird.width / 2 - 50;
         Director.bird.y = Director.message.y + Director.message.height / 2 + 35;
 
-        // 点击鼠标进入游戏场景
-        let that = this;
-        document.onclick = function () {
-            that.stop_render();
-            that.stop_run();
-            Director.scene = new GameScene();
-            Director.scene.start_render(Director.MSPF);
-            Director.scene.start_run(Director.MSPF);
+        // 点击鼠标或按下空格键进入游戏场景
+        let startGame = (ev) => {
+            if (ev.type === 'click' || (ev.type === 'keydown' && ev.keyCode === 32)) {
+
+                // 取消之前的监听事件
+                document.onclick = null;
+                document.onkeydown = null;
+
+                this.stop_render();
+                this.stop_run();
+                Director.scene = new GameScene();
+                Director.scene.start_render(Director.MSPF);
+                Director.scene.start_run(Director.MSPF);
+            }
         }
+        document.onclick = startGame;
+        document.onkeydown = startGame;
     }
 
     run(instance) {
@@ -383,6 +391,11 @@ class GameScene extends Scene {
             }
         }
         if (f) { // 撞上则停止
+
+            // 清空小鸟监听函数
+            document.onclick = null;
+            document.onkeydown = null;
+
             Res.hit.play();
             instance.stop_run();
             instance.stop_render();
@@ -446,14 +459,23 @@ class EndScene extends Scene {
         } else if (!instance.is_ani_finished) {
             instance.is_ani_finished = true; // 演完动画，设置点击事件，且只此一次
 
-            // 单击鼠标切换场景
-            document.onclick = function () {
-                instance.stop_render();
-                instance.stop_run();
-                Director.scene = new StartScene();
-                Director.scene.start_render(Director.MSPF);
-                Director.scene.start_run(Director.MSPF);
+            // 单击鼠标或按下空格切换场景
+            let getinStartScene = (ev) => {
+                if (ev.type === 'click' || (ev.type === 'keydown' && ev.keyCode === 32)) {
+
+                    // 取消之前的监听事件
+                    document.onclick = null;
+                    document.onkeydown = null;
+
+                    instance.stop_render();
+                    instance.stop_run();
+                    Director.scene = new StartScene();
+                    Director.scene.start_render(Director.MSPF);
+                    Director.scene.start_run(Director.MSPF);
+                }
             }
+            document.onclick = getinStartScene;
+            document.onkeydown = getinStartScene;
         }
 
         if (!instance.is_voice_played) {
@@ -616,10 +638,12 @@ class Bird extends Sprite {
 
         // 按键监听
         this.click = false;
-        let that = this;
-        document.onclick = function () {
-            that.click = true;
+        let func = (ev) => {
+            if (ev.type === 'click' || (ev.type === 'keydown' && ev.keyCode === 32))
+                this.click = true;
         }
+        document.onclick = func;
+        document.onkeydown = func;
 
         this.dy = 0.5; // 速度
     }
