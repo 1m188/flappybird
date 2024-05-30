@@ -522,10 +522,10 @@ class Background extends Sprite {
 
     render() {
         super.render();
-        let end = this.x + this.width;
+        let end = this.x + this.width - 1; // 此处-1修复背景图片之间的细小间隔
         while (end < canvas.width) {
             ctx.drawImage(this.img, end, 0, this.width, this.height);
-            end += this.width;
+            end += this.width - 1; // 此处-1同上
         }
     }
 
