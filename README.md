@@ -1,9 +1,3 @@
-# Flappy Bird
+# Flappybird
 
-经典的 Flappy Bird 游戏
-
-![start](./readme/start.png)
-
-![play](./readme/play.png)
-
-![end](./readme/end.png)
+Flappybird developed by js.
