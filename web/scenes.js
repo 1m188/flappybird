@@ -20,6 +20,7 @@ function get_pipes() {
         while (b == 0) b = get_random(minv, maxv);
         up = new Pipe(Res.pipe_red_up, true, a);
         down = new Pipe(Res.pipe_red_down, false, b);
+        up.is_red = true; // 标记为红色水管对：会垂直移动，难度更大
     }
 
     up.x = down.x = canvas.width;
@@ -222,8 +223,8 @@ class GameScene extends Scene {
                 if (eup.x + eup.width <= Director.bird.x && !eup.isleftbird) {
                     eup.isleftbird = edown.isleftbird = true;
                     Director.pipes.push(get_pipes());
-                    // 分数+1
-                    Director.grade.score++;
+                    // 得分：绿色普通水管+1分；红色垂直移动水管难度更大，+5分
+                    Director.grade.score += eup.is_red ? 5 : 1;
                     Res.point.play();
                 }
                 i++;
