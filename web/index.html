@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <!-- 移动端适配：按设备宽度布局，禁止初始缩放；viewport-fit=cover 适配刘海屏 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <!-- 移动端适配：按设备宽度布局；禁止用户缩放以禁用双击缩放手势，
+         避免 Chromium 在手势判定期间暂停渲染导致点按时画面冻结；viewport-fit=cover 适配刘海屏 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>FlappyBird</title>
 
     <!-- 图标 -->
@@ -21,6 +22,10 @@
             overflow: hidden;
             overscroll-behavior: none; /* 禁止下拉刷新与回弹 */
             touch-action: none; /* 禁用双击缩放等浏览器手势，保证点按即时响应 */
+        }
+
+        canvas {
+            touch-action: none; /* 直接声明在触摸命中的元素上，确保手势判定被彻底禁用 */
         }
     </style>
 </head>
