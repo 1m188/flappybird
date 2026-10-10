@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <!-- 移动端适配：按设备宽度布局，禁止初始缩放；viewport-fit=cover 适配刘海屏 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>FlappyBird</title>
 
     <!-- 图标 -->
@@ -17,6 +19,8 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            overscroll-behavior: none; /* 禁止下拉刷新与回弹 */
+            touch-action: none; /* 禁用双击缩放等浏览器手势，保证点按即时响应 */
         }
     </style>
 </head>

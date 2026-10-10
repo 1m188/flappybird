@@ -150,10 +150,10 @@ class Bird extends Sprite {
         // 按键监听
         this.click = false;
         let func = (ev) => {
-            if (ev.type === 'click' || (ev.type === 'keydown' && ev.keyCode === 32))
+            if (ev.type === 'pointerdown' || (ev.type === 'keydown' && ev.keyCode === 32))
                 this.click = true;
         }
-        document.onclick = func;
+        document.onpointerdown = func;
         document.onkeydown = func;
 
         this.dy = 0.5; // 速度

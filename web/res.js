@@ -182,10 +182,13 @@ class Res {
         Res.yellowbird_upflap.src = "./asset/image/yellowbird_upflap.png";
         Res.yellowbird_upflap.onload = function () { Res.num++; };
 
-        Res.die.src = "./asset/audio/die.ogg";
-        Res.hit.src = "./asset/audio/hit.ogg";
-        Res.point.src = "./asset/audio/point.ogg";
-        Res.wing.src = "./asset/audio/wing.ogg";
+        // iOS Safari 不支持 ogg 音频，检测浏览器支持情况后选择扩展名（ogg 优先，回退 mp3）
+        let audio_ext = (new Audio()).canPlayType('audio/ogg') ? '.ogg' : '.mp3';
+
+        Res.die.src = "./asset/audio/die" + audio_ext;
+        Res.hit.src = "./asset/audio/hit" + audio_ext;
+        Res.point.src = "./asset/audio/point" + audio_ext;
+        Res.wing.src = "./asset/audio/wing" + audio_ext;
 
         let timer = setInterval(function () {
             if (!Res.is_ready()) return;
