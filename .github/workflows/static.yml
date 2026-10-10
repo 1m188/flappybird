@@ -33,11 +33,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp -r web/. site/
+          cp -r asset site/asset
+          # web 目录内资源引用指向仓库根目录的 ../asset；页面部署在站点根目录，
+          # 部署产物中将其改写为同级 ./asset
+          find site -type f \( -name '*.html' -o -name '*.js' \) -exec sed -i 's|\.\./asset/|./asset/|g' {} +
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Upload the contents of the web directory plus the shared root asset
+          path: 'site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
