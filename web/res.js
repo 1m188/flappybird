@@ -123,69 +123,69 @@ class Res {
 
         for (let i = 0; i <= 9; i++) {
             let img = new Image();
-            img.src = "./asset/image/" + String(i) + ".png";
+            img.src = "../asset/image/" + String(i) + ".png";
             img.onload = function () { Res.num++; };
             Res.numbers.push(img);
         }
 
-        Res.background_day.src = "./asset/image/background_day.png";
+        Res.background_day.src = "../asset/image/background-day.png";
         Res.background_day.onload = function () { Res.num++; };
 
-        Res.background_night.src = "./asset/image/background_night.png";
+        Res.background_night.src = "../asset/image/background-night.png";
         Res.background_night.onload = function () { Res.num++; };
 
-        Res.base.src = "./asset/image/base.png";
+        Res.base.src = "../asset/image/base.png";
         Res.base.onload = function () { Res.num++; };
 
-        Res.gameover.src = "./asset/image/gameover.png";
+        Res.gameover.src = "../asset/image/gameover.png";
         Res.gameover.onload = function () { Res.num++; };
 
-        Res.message.src = "./asset/image/message.png";
+        Res.message.src = "../asset/image/message.png";
         Res.message.onload = function () { Res.num++; };
 
-        Res.pipe_green_up.src = "./asset/image/pipe_green_up.png";
+        Res.pipe_green_up.src = "../asset/image/pipe-green.png";
         Res.pipe_green_up.onload = function () { Res.num++; };
 
-        Res.pipe_green_down.src = "./asset/image/pipe_green_down.png";
+        Res.pipe_green_down.src = "../asset/image/pipe-green-down.png";
         Res.pipe_green_down.onload = function () { Res.num++; };
 
-        Res.pipe_red_up.src = "./asset/image/pipe_red_up.png";
+        Res.pipe_red_up.src = "../asset/image/pipe-red.png";
         Res.pipe_red_up.onload = function () { Res.num++; };
 
-        Res.pipe_red_down.src = "./asset/image/pipe_red_down.png";
+        Res.pipe_red_down.src = "../asset/image/pipe-red-down.png";
         Res.pipe_red_down.onload = function () { Res.num++; };
 
-        Res.bluebird_downflap.src = "./asset/image/bluebird_downflap.png";
+        Res.bluebird_downflap.src = "../asset/image/bluebird-downflap.png";
         Res.bluebird_downflap.onload = function () { Res.num++; };
 
-        Res.bluebird_midflap.src = "./asset/image/bluebird_midflap.png";
+        Res.bluebird_midflap.src = "../asset/image/bluebird-midflap.png";
         Res.bluebird_midflap.onload = function () { Res.num++; };
 
-        Res.bluebird_upflap.src = "./asset/image/bluebird_upflap.png";
+        Res.bluebird_upflap.src = "../asset/image/bluebird-upflap.png";
         Res.bluebird_upflap.onload = function () { Res.num++; };
 
-        Res.redbird_downflap.src = "./asset/image/redbird_downflap.png";
+        Res.redbird_downflap.src = "../asset/image/redbird-downflap.png";
         Res.redbird_downflap.onload = function () { Res.num++; };
 
-        Res.redbird_midflap.src = "./asset/image/redbird_midflap.png";
+        Res.redbird_midflap.src = "../asset/image/redbird-midflap.png";
         Res.redbird_midflap.onload = function () { Res.num++; };
 
-        Res.redbird_upflap.src = "./asset/image/redbird_upflap.png";
+        Res.redbird_upflap.src = "../asset/image/redbird-upflap.png";
         Res.redbird_upflap.onload = function () { Res.num++; };
 
-        Res.yellowbird_downflap.src = "./asset/image/yellowbird_downflap.png";
+        Res.yellowbird_downflap.src = "../asset/image/yellowbird-downflap.png";
         Res.yellowbird_downflap.onload = function () { Res.num++; };
 
-        Res.yellowbird_midflap.src = "./asset/image/yellowbird_midflap.png";
+        Res.yellowbird_midflap.src = "../asset/image/yellowbird-midflap.png";
         Res.yellowbird_midflap.onload = function () { Res.num++; };
 
-        Res.yellowbird_upflap.src = "./asset/image/yellowbird_upflap.png";
+        Res.yellowbird_upflap.src = "../asset/image/yellowbird-upflap.png";
         Res.yellowbird_upflap.onload = function () { Res.num++; };
 
-        Res.die.src = "./asset/audio/die.ogg";
-        Res.hit.src = "./asset/audio/hit.ogg";
-        Res.point.src = "./asset/audio/point.ogg";
-        Res.wing.src = "./asset/audio/wing.ogg";
+        Res.die.src = "../asset/audio/die.ogg";
+        Res.hit.src = "../asset/audio/hit.ogg";
+        Res.point.src = "../asset/audio/point.ogg";
+        Res.wing.src = "../asset/audio/wing.ogg";
 
         let timer = setInterval(function () {
             if (!Res.is_ready()) return;
