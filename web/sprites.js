@@ -186,6 +186,7 @@ class Bird extends Sprite {
             this.click = false;
             this.y -= 8;
             this.dy = -8;
+            Res.wing.currentTime = 0; // 先归零再播放，否则连续点击时正在播放中的音效不会从头重播，表现为吞音
             Res.wing.play();
         }
     }
